@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\img\Home_MountainBike.PNG" />
+  </ItemGroup>
+
 </Project>
