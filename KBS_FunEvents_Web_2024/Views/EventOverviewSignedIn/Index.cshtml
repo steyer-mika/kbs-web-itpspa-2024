@@ -1,0 +1,42 @@
+﻿@model KBS_FunEvents_Web_2024.ViewModel.EventViewModel
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<div>
+    <h4>EventViewModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EtBezeichnung)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EtBezeichnung)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EdPreis)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EdPreis)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EdBeginn)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EdBeginn)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EdStartOrt)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EdStartOrt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.EtEventId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
