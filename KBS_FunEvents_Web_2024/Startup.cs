@@ -28,6 +28,12 @@ namespace KBS_FunEvents_Web_2024
             services.AddControllersWithViews();
 
             services.AddDbContext<kbsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddSession(options =>
+            {
+                options.Cookie.Name = "CustomerCookie";
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
