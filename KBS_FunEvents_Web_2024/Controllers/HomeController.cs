@@ -67,5 +67,9 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return View(login);
         }
+        public IActionResult Registration()
+        {
+            return View();
+        }
     }
 }
