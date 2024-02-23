@@ -1,18 +1,35 @@
-﻿<head>
-    <style>
+﻿@model KBS_FunEvents_Web_2024.ViewModels.LoginModelView
 
-    </style>
-</head>
-<body>
-    <h2>Login</h2>
-    <br />
-    <p>email</p>
-    <input class="form-control" style="width:20%" type="text" />
-    <p>Password</p>
-    <input type="password" class="form-control" style="width:20%">
-    <input type="button" value="Create" onclick="location.href='@Url.Action("LoginTest", "Home")'" />
+@{
+    ViewData["Title"] = "Login";
+}
 
-</body>
-<script>
+<h1>Login</h1>
 
-</script>
+<h4>LoginModelView</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="KdEmail" class="control-label"></label>
+                <input asp-for="KdEmail" class="form-control" />
+                <span asp-validation-for="KdEmail" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KdPwHash" class="control-label"></label>
+                <input asp-for="KdPwHash" class="form-control" />
+                <span asp-validation-for="KdPwHash" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
