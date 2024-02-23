@@ -1,6 +1,7 @@
 ﻿using KBS_FunEvents_Web_2024.ComputeHash;
 using KBS_FunEvents_Web_2024.Models;
 using KBS_FunEvents_Web_2024.ViewModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,8 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult Privacy()
         {
+            ViewBag.kundenId = HttpContext.Session.GetInt32("KundenID");
+            ViewBag.email = HttpContext.Session.GetString("Email");
             return View();
         }
 
@@ -55,12 +58,14 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
                 if(customer != null)
                 {
+                    HttpContext.Session.SetInt32("KundenID", customer.KdKundenId);
+                    HttpContext.Session.SetString("Email", customer.KdEmail);
+
                     return RedirectToAction(controllerName: "Home", actionName: "Privacy");
                 }
             }
 
             return View(login);
         }
-
     }
 }

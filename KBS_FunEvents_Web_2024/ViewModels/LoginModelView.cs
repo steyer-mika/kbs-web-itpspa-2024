@@ -13,7 +13,7 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         [DataType(DataType.EmailAddress)]
         public string KdEmail { get; set; }
 
-        [Required(ErrorMessage = "Passwort*")]
+        [Required(ErrorMessage = "Passwor*")]
         [Display(Name = "Passwort")]
         [DataType(DataType.Password)]
         public string KdPwHash { get; set; }
