@@ -1,5 +1,8 @@
-﻿using KBS_FunEvents_Web_2024.Models;
+﻿using KBS_FunEvents_Web_2024.ComputeHash;
+using KBS_FunEvents_Web_2024.Models;
+using KBS_FunEvents_Web_2024.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -13,9 +16,12 @@ namespace KBS_FunEvents_Web_2024.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly kbsContext _dbContext;
+
+        public HomeController(ILogger<HomeController> logger, kbsContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
@@ -33,15 +39,28 @@ namespace KBS_FunEvents_Web_2024.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        //public async Task<IActionResult> Login (LoginModelView login)
+        //public IActionResult Login()
         //{
-        //    return RedirectToAction();
+        //    return View();
         //}
+
+        public async Task<IActionResult> Login(LoginModelView login)
+        {
+            if (ModelState.IsValid)
+            {
+                var email = login.KdEmail;
+                var password = MD5Generator.getMD5Hash(login.KdPwHash);
+
+                TblKunden customer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => x.KdEmail == email && x.KdPasswortHash == password);
+
+                if(customer != null)
+                {
+                    return RedirectToAction(controllerName: "Home", actionName: "Privacy");
+                }
+            }
+
+            return View(login);
+        }
 
     }
 }
