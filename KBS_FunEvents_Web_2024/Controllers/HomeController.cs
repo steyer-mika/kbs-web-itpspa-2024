@@ -42,10 +42,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        //public IActionResult Login()
-        //{
-        //    return View();
-        //}
 
         public async Task<IActionResult> Login(LoginModelView login)
         {

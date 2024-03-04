@@ -25,15 +25,15 @@ namespace KBS_FunEvents_Web_2024
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
-
-            services.AddDbContext<kbsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-
             services.AddSession(options =>
             {
                 options.Cookie.Name = "CustomerCookie";
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
             });
+
+            services.AddControllersWithViews();
+
+            services.AddDbContext<kbsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +54,7 @@ namespace KBS_FunEvents_Web_2024
 
             app.UseRouting();
 
+            app.UseSession();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
