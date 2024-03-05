@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using KBS_FunEvents_Web_2024.Models;
 using KBS_FunEvents_Web_2024.ViewModel;
+using Microsoft.AspNetCore.Http;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -26,6 +27,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View();
         }
 
+        [HttpGet("{id}")]
         public async Task<IActionResult> Booking(int id)
         {
             TblEventDaten eventDaten = await _dbContext.TblEventDatens.FindAsync(id);
@@ -48,8 +50,11 @@ namespace KBS_FunEvents_Web_2024.Controllers
             bvm.EdAktTeilnehmer = eventDaten.EdAktTeilnehmer;
             bvm.EdRabatt = eventDaten.EdRabatt;
             bvm.Available = eventDaten.EdMaxTeilnehmer - eventDaten.EdAktTeilnehmer;
-            bvm.EventName = eventDaten.EtEvent.EtBezeichnung;
-            bvm.EventDescription = eventDaten.EtEvent.EtBeschreibung;
+
+            TblEvent baseEvent = await _dbContext.TblEvents.FindAsync(eventDaten.EtEventId);
+
+            bvm.EventName = baseEvent.EtBezeichnung;
+            bvm.EventDescription = baseEvent.EtBeschreibung;
 
             return View("Booking", bvm);
         }
