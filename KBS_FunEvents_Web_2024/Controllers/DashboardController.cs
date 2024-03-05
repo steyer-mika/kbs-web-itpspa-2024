@@ -58,5 +58,42 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return View("Booking", bvm);
         }
+
+        [HttpPost("{id}")]
+        public async Task<IActionResult> Booking(int eventDataId, int bookedPlaces)
+        {
+            if (ModelState.IsValid == false) return View();
+
+            TblEventDaten eventDaten = _dbContext.TblEventDatens.Where(t => t.EdEvDatenId == eventDataId).FirstOrDefault();
+
+            if (eventDaten == null) return View();
+
+            if (eventDaten.EdAktTeilnehmer + bookedPlaces > eventDaten.EdMaxTeilnehmer)
+            {
+                return View();
+            }
+
+            TblBuchungen booking = new();
+
+            int? customerId = HttpContext.Session.GetInt32("KundenID");
+
+            if (customerId == null) return View();
+
+            booking.BuBezahlt = false;
+            booking.BuGebuchtePlaetze = bookedPlaces;
+            booking.BuStorniert = false;
+            booking.BuRechnungErstellt = false;
+            booking.EdEvDatenId = eventDataId;
+            booking.BuGebuchtePlaetze = bookedPlaces;
+            booking.KdKundenId = customerId.Value;
+            _dbContext.TblBuchungens.Add(booking);
+
+            eventDaten.EdAktTeilnehmer += bookedPlaces;
+            _dbContext.TblEventDatens.Update(eventDaten);
+
+            await _dbContext.SaveChangesAsync();
+
+            return View();
+        }
     }
 }
