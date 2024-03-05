@@ -4,9 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Microsoft.EntityFrameworkCore;
 using KBS_FunEvents_Web_2024.Models;
-using KBS_FunEvents_Web_2024.ViewModel;
+using KBS_FunEvents_Web_2024.ViewModels;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -19,18 +20,31 @@ namespace KBS_FunEvents_Web_2024.Controllers
             _context = context;
         }
 
-        // GET: EventViewModels
         public async Task<IActionResult> Index()
         {
-            return View(await _context.EventViewModel.ToListAsync());
+            
+            EventOverviewViewModel evViewModels = GetAllEventModels();
+            return View(evViewModels);
         }
 
-        // GET: EventViewModels/Details/5
-
-
-        private bool EventViewModelExists(int id)
+        private EventOverviewViewModel GetAllEventModels()
         {
-            return _context.EventViewModel.Any(e => e.EtEventId == id);
+            var allEvents = _context.TblEvents;
+            EventOverviewViewModel evViewModels = new EventOverviewViewModel();
+
+            foreach (var item in allEvents)
+            {
+                EventViewModel newViewModel = new EventViewModel();
+                
+                newViewModel.EtEventId = item.EtEventId;
+                newViewModel.EtBezeichnung = item.EtBezeichnung;
+                newViewModel.EkEvKategorieId = item.EkEvKategorieId;
+                newViewModel.EvEvVeranstalterId = item.EvEvVeranstalterId;
+
+                evViewModels.eventViewModels.Add(newViewModel);
+            }
+
+            return evViewModels;
         }
     }
 }
