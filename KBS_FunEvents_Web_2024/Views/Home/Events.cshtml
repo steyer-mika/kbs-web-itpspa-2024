@@ -31,6 +31,9 @@
     <div class="container">
         <h1>Aktuelle Events im Angebot</h1>
 
+        @Html.BeginForm(FormMethod.Get, Html)
+        
+
         <table>
             <thead>
                 <tr>
@@ -42,15 +45,17 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>Skydiving</td>
+                    <td>@Html.Label("EtBezeichnung")</td>
                     <td>FunSports</td>
                     <td>Falschirmspringverein Remmscheid</td>
                     <td><button>Details zum Event</button></td>
                 </tr>
             </tbody>
         </table>
+       
         <br />
         <button>Zurück zum Dashboard</button>
+
 
     </div>
 </div>
