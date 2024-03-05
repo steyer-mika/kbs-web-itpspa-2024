@@ -118,5 +118,12 @@ namespace KBS_FunEvents_Web_2024.Controllers
             }
             return View();
         }
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Session.Remove("KundenID");
+            HttpContext.Session.Remove("Email");
+
+            return RedirectToAction("Login");
+        }
     }
 }
