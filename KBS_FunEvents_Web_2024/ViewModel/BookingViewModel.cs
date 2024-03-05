@@ -15,7 +15,7 @@ namespace KBS_FunEvents_Web_2024.ViewModel
 
         public int EtEventId { get; set; }
 
-        [Display(Name = "Preis")]
+        [Display(Name = "Preis pro Teilnehmer")]
         public decimal EdPreis { get; set; }
 
         [Display(Name = "Start des Events")]
@@ -33,10 +33,13 @@ namespace KBS_FunEvents_Web_2024.ViewModel
         [Display(Name = "Freie Plätze")]
         public int Available { get; set; }
 
+        [Display(Name = "Maximale Teilnehmeranzahl")]
         public int EdMaxTeilnehmer { get; set; }
 
+        [Display(Name = "Aktuelle Teilnehmeranzahl")]
         public int EdAktTeilnehmer { get; set; }
 
+        [Display(Name = "Rabatt")]
         public decimal EdRabatt { get; set; }
 
         [Display(Name = "Name des Events")]
