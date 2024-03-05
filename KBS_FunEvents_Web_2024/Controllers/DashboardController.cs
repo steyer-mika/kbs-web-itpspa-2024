@@ -27,7 +27,21 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult GetActiveBookings()
         {
-            return View(kbsContext.TblBuchungens.Where(x => x.KdKundenId == _kundenId));
+            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == _kundenId);
+            return View(result);
+        }
+
+        public IActionResult GetDetailBookings(int pId)
+        {
+            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == _kundenId || x.BuBuchungsId == pId);
+            return View(result);
+        }
+
+        private IActionResult Stonierung(int pId)
+        {
+            var booking = kbsContext.TblBuchungens.FirstOrDefault(x => x.BuBuchungsId == pId);
+            booking.BuStorniert = true;
+            return View();
         }
     }
 }
