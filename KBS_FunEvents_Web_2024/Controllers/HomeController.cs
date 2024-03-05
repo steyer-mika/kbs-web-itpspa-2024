@@ -52,7 +52,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
                 TblKunden customer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => x.KdEmail == email && x.KdPasswortHash == password);
 
-                if(customer != null)
+                if (customer != null)
                 {
                     HttpContext.Session.SetInt32("KundenID", customer.KdKundenId);
                     HttpContext.Session.SetString("Email", customer.KdEmail);
@@ -63,8 +63,59 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return View(login);
         }
-        public IActionResult Registration()
+        public async Task<IActionResult> Registration(RegistrationModelView registration)
         {
+            if (ModelState.IsValid)
+            {
+                var nname = registration.Nachname;
+                var vname = registration.Vorname;
+                var str = registration.Strasse;
+                var hnummer = registration.Hausnummer;
+                var plz = registration.Postleitzahl;
+                var ort = registration.Ort;
+                var mail = registration.KdEmail;
+                var tel = registration.Telefon;
+                var password = registration.Passwort;
+                TblKunden existingCustomer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => mail == x.KdEmail || nname == x.KdName && vname == x.KdVorname && str == x.KdStrasse && hnummer == x.KdHnummer && plz == x.KdPlz && ort == x.KdOrt);
+                if (existingCustomer == null)
+                {
+                    await _dbContext.AddAsync(new TblKunden
+                    {
+                        KdName = nname,
+                        KdVorname = vname,
+                        KdStrasse = str,
+                        KdHnummer = hnummer,
+                        KdPlz = plz,
+                        KdOrt = ort,
+                        KdEmail = mail,
+                        KdTelefon = tel,
+                        KdPasswortHash = MD5Generator.getMD5Hash(password)
+                    }); ;
+                    await _dbContext.SaveChangesAsync();
+                }
+                else
+                {
+                    if (string.IsNullOrEmpty(existingCustomer.KdEmail))
+                    {
+                        existingCustomer.KdName = nname;
+                        existingCustomer.KdVorname = vname;
+                        existingCustomer.KdStrasse = str;
+                        existingCustomer.KdHnummer = hnummer;
+                        existingCustomer.KdPlz = plz;
+                        existingCustomer.KdOrt = ort;
+                        existingCustomer.KdTelefon = tel;
+                        existingCustomer.KdEmail = mail;
+                        existingCustomer.KdPasswortHash = MD5Generator.getMD5Hash(password);
+                        await _dbContext.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(registration.KdEmail), "Es existiert bereits ein Nutzer mit dieser Email");
+                        return View();
+                    }
+                }
+                return RedirectToAction(controllerName: "Home", actionName: "Index");
+            }
             return View();
         }
     }
