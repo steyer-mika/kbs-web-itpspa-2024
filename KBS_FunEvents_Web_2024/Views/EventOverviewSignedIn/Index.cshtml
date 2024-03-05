@@ -4,38 +4,37 @@
     ViewData["Title"] = "View";
 }
 
-<h1>View</h1>
-
 <div>
-    <h4>EventViewModel</h4>
+
+    <hr />
+    <h1>
+        Alle Events im Überblick
+    </h1>
+
+    
+
     <hr />
     @foreach (var item in Model)
     {
 
         <dl class="row">
-            <dt class = "col-sm-2">
+            <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => item.EtBezeichnung)
             </dt>
-            <dd class = "col-sm-10">
+            <dd class="col-sm-10">
                 @Html.DisplayFor(model => item.EtBezeichnung)
             </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => item.EdPreis)
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.EkKatBezeichnung)
             </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => item.EdPreis)
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.EkKatBezeichnung)
             </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => item.EdBeginn)
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => item.EvFirma)
             </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => item.EdBeginn)
-            </dd>
-            <dt class = "col-sm-2">
-                @Html.DisplayNameFor(model => item.EdStartOrt)
-            </dt>
-            <dd class = "col-sm-10">
-                @Html.DisplayFor(model => item.EdStartOrt)
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => item.EvFirma)
             </dd>
         </dl>
         <div>

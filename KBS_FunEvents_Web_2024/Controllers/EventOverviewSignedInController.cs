@@ -32,16 +32,19 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         private List<EventOverviewViewModel> GetData()
         {
-            var data = _context.TblEvents;
+            var data = _context.TblEvents.Include(x => x.EkEvKategorie).Include(x => x.EvEvVeranstalter);
 
             List<EventOverviewViewModel> dataForVM = new List<EventOverviewViewModel>();
 
             foreach (var eventData in data)
             {
+
                 EventOverviewViewModel ev = new EventOverviewViewModel
                 {
                     EtEventId = eventData.EtEventId,
                     EtBezeichnung = eventData.EtBezeichnung,
+                    EkKatBezeichnung = eventData.EkEvKategorie.EkKatBezeichnung,
+                    EvFirma = eventData.EvEvVeranstalter.EvFirma
                 };
 
                 dataForVM.Add(ev);
