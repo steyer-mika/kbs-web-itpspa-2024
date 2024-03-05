@@ -12,10 +12,12 @@ namespace KBS_FunEvents_Web_2024.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly kbsContext _kbsContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, kbsContext kbsContext)
         {
             _logger = logger;
+            _kbsContext = kbsContext;
         }
 
         public IActionResult Index()
@@ -47,6 +49,12 @@ namespace KBS_FunEvents_Web_2024.Controllers
         public IActionResult Bookings()
         {
             return View();
+        }
+
+        public IActionResult GetEvents()
+        {
+            var result = _kbsContext.TblEvents;
+            return View(result);
         }
 
 
