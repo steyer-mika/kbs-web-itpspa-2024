@@ -27,7 +27,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View();
         }
 
-        [HttpGet("{id}")]
         public async Task<IActionResult> Booking(int id)
         {
             TblEventDaten eventDaten = await _dbContext.TblEventDatens.FindAsync(id);
@@ -59,7 +58,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View("Booking", bvm);
         }
 
-        [HttpPost("{id}")]
         public async Task<IActionResult> Booking(int eventDataId, int bookedPlaces)
         {
             if (ModelState.IsValid == false) return View();
@@ -73,12 +71,10 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 return View();
             }
 
-            TblBuchungen booking = new();
-
             int? customerId = HttpContext.Session.GetInt32("KundenID");
-
             if (customerId == null) return View();
 
+            TblBuchungen booking = new();
             booking.BuBezahlt = false;
             booking.BuGebuchtePlaetze = bookedPlaces;
             booking.BuStorniert = false;
