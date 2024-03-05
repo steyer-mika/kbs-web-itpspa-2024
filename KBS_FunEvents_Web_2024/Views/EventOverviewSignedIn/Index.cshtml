@@ -1,4 +1,4 @@
-﻿@model KBS_FunEvents_Web_2024.ViewModel.EventViewModel
+﻿@model List<KBS_FunEvents_Web_2024.ViewModels.EventOverviewViewModel>
 
 @{
     ViewData["Title"] = "View";
@@ -9,34 +9,38 @@
 <div>
     <h4>EventViewModel</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EtBezeichnung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EtBezeichnung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdPreis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdPreis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdBeginn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdBeginn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdStartOrt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdStartOrt)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.EtEventId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    @foreach (var item in Model)
+    {
+
+        <dl class="row">
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => item.EtBezeichnung)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => item.EtBezeichnung)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => item.EdPreis)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => item.EdPreis)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => item.EdBeginn)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => item.EdBeginn)
+            </dd>
+            <dt class = "col-sm-2">
+                @Html.DisplayNameFor(model => item.EdStartOrt)
+            </dt>
+            <dd class = "col-sm-10">
+                @Html.DisplayFor(model => item.EdStartOrt)
+            </dd>
+        </dl>
+        <div>
+            <a asp-action="Edit" asp-route-id="@item.EtEventId">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    }
 </div>
