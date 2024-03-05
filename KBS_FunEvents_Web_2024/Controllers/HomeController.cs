@@ -38,8 +38,9 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View();
         }
 
-        public IActionResult BookingDetail()
+        public IActionResult BookingDetail(int id)
         {
+            ViewBag.ID = id;
             return View();
         }
 
