@@ -1,84 +1,105 @@
 ﻿@model KBS_FunEvents_Web_2024.ViewModel.BookingViewModel
 
 @{
-    ViewData["Title"] = "Booking";
+    ViewData["Title"] = "Buchung des Events";
 }
 
-<h1>Booking</h1>
+<h1>Buchung des Events</h1>
 
 <div>
-    <h4>BookingViewModel</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EtEventId)
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EventName)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EtEventId)
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EventDescription)
+        </dt>
+    </dl>
+    <dl class="row">
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EventName)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdPreis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdPreis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdBeginn)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdBeginn)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdEnde)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdEnde)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdStartOrt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdStartOrt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdZielort)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdZielort)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdMaxTeilnehmer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdMaxTeilnehmer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdAktTeilnehmer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdAktTeilnehmer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdFreigegeben)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdFreigegeben)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdRabatt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdRabatt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EdVeranstalterBenachrichtigt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EdVeranstalterBenachrichtigt)
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EventDescription)
         </dd>
     </dl>
+
+    <dl class="row">
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EdBeginn)
+        </dt>
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EdEnde)
+        </dt>
+    </dl>
+    <dl class="row">
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EdBeginn) Uhr
+        </dd>
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EdEnde) Uhr
+        </dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EdStartOrt)
+        </dt>
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EdZielort)
+        </dt>
+    </dl>
+    <dl class="row">
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EdStartOrt)
+        </dd>
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EdZielort)
+        </dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EdPreis)
+        </dt>
+        <dt class="col-6">
+            @Html.DisplayNameFor(model => model.EdAktTeilnehmer)
+        </dt>
+    </dl>
+    <dl class="row">
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EdPreis)
+        </dd>
+        <dd class="col-6">
+            @Html.DisplayFor(model => model.EdAktTeilnehmer)
+        </dd>
+    </dl>
+
 </div>
+<hr />
 <div>
-    @*<a asp-action="Edit" asp-route-id="@Model.EdEvDatenId">Edit</a>*@ |
-    <a asp-action="Index">Back to List</a>
+    <dl class="row">
+        <dt class="col-6">
+            Anzahl Plätze wählen:
+        </dt>
+        <dt class="col-6">
+            Jetzt buchen...
+        </dt>
+    </dl>
+    <dl class="row">
+        <dd class="col-6">
+            <select>
+                <option>lel</option>
+            </select>
+        </dd>
+        <dd class="col-6">
+            <button aps-action="" class="btn btn-success">Event Buchen</button>
+        </dd>
+    </dl>
+    <dl class="row">
+        <dd class="col-6">
+            <a asp-action="Index">Zurück zu den Events...</a>
+        </dd>
+    </dl>
 </div>
