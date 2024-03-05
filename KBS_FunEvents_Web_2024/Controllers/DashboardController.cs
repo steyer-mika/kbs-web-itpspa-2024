@@ -58,6 +58,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View("Booking", bvm);
         }
 
+        [HttpPost]
         public async Task<IActionResult> Booking(int eventDataId, int bookedPlaces)
         {
             if (ModelState.IsValid == false) return View();
@@ -80,7 +81,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
             booking.BuStorniert = false;
             booking.BuRechnungErstellt = false;
             booking.EdEvDatenId = eventDataId;
-            booking.BuGebuchtePlaetze = bookedPlaces;
             booking.KdKundenId = customerId.Value;
             _dbContext.TblBuchungens.Add(booking);
 
