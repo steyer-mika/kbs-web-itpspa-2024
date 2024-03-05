@@ -23,11 +23,11 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         [Required(ErrorMessage = "Hausnummer*")]
         [Display(Name = "Hausnummer")]
         [DataType(DataType.Text)]
-        public int Hausnummer { get; set; }
+        public string Hausnummer { get; set; }
         [Required(ErrorMessage = "Postleitzahl*")]
         [Display(Name = "Postleitzahl")]
         [DataType(DataType.PostalCode)]
-        public int Postleitzahl { get; set; }
+        public string Postleitzahl { get; set; }
         [Required(ErrorMessage = "Ort*")]
         [Display(Name = "Ort")]
         [DataType(DataType.Text)]
@@ -46,7 +46,7 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         [DataType(DataType.Password)]
         public string Passwort { get; set; }
 
-        [Required(ErrorMessage = "Passwor*")]
+        [Compare("Passwort", ErrorMessage ="Passwörter sind nicht gleich!")]
         [Display(Name = "Passwort")]
         [DataType(DataType.Password)]
         public string PasswortWdh { get; set; }
