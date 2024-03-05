@@ -18,10 +18,10 @@ namespace KBS_FunEvents_Web_2024.ViewModel
         [Display(Name = "Preis")]
         public decimal EdPreis { get; set; }
 
-        [Display(Name = "Beginn")]
+        [Display(Name = "Start des Events")]
         public DateTime EdBeginn { get; set; }
 
-        [Display(Name = "Ende")]
+        [Display(Name = "Ende des Events")]
         public DateTime EdEnde { get; set; }
 
         [Display(Name = "Startort")]
@@ -30,14 +30,19 @@ namespace KBS_FunEvents_Web_2024.ViewModel
         [Display(Name = "Zielort")]
         public string EdZielort { get; set; }
 
+        [Display(Name = "Freie Plätze")]
+        public int Available { get; set; }
+
         public int EdMaxTeilnehmer { get; set; }
 
         public int EdAktTeilnehmer { get; set; }
 
-        public bool EdFreigegeben { get; set; }
-
         public decimal EdRabatt { get; set; }
 
-        public bool EdVeranstalterBenachrichtigt { get; set; }
+        [Display(Name = "Name des Events")]
+        public string EventName { get; set; }
+
+        [Display(Name = "Beschreibung des Events")]
+        public string EventDescription { get; set; }
     }
 }

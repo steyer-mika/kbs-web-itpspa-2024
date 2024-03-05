@@ -46,9 +46,10 @@ namespace KBS_FunEvents_Web_2024.Controllers
             bvm.EdZielort = eventDaten.EdZielort;
             bvm.EdMaxTeilnehmer = eventDaten.EdMaxTeilnehmer;
             bvm.EdAktTeilnehmer = eventDaten.EdAktTeilnehmer;
-            bvm.EdFreigegeben = eventDaten.EdFreigegeben;
             bvm.EdRabatt = eventDaten.EdRabatt;
-            bvm.EdVeranstalterBenachrichtigt = eventDaten.EdVeranstalterBenachrichtigt;
+            bvm.Available = eventDaten.EdMaxTeilnehmer - eventDaten.EdAktTeilnehmer;
+            bvm.EventName = eventDaten.EtEvent.EtBezeichnung;
+            bvm.EventDescription = eventDaten.EtEvent.EtBeschreibung;
 
             return View("Booking", bvm);
         }
