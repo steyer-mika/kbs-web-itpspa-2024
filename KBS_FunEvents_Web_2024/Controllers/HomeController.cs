@@ -97,7 +97,15 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 {
                     if (string.IsNullOrEmpty(existingCustomer.KdEmail))
                     {
+                        existingCustomer.KdName = nname;
+                        existingCustomer.KdVorname = vname;
+                        existingCustomer.KdStrasse = str;
+                        existingCustomer.KdHnummer = hnummer;
+                        existingCustomer.KdPlz = plz;
+                        existingCustomer.KdOrt = ort;
+                        existingCustomer.KdTelefon = tel;
                         existingCustomer.KdEmail = mail;
+                        existingCustomer.KdPasswortHash = MD5Generator.getMD5Hash(password);
                         await _dbContext.SaveChangesAsync();
                     }
                     else
