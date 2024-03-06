@@ -85,12 +85,21 @@
         </dt>
         <dt class="col-6">
             Jetzt buchen...
-        </dt>
+        </dt> 
     </dl>
     <dl class="row">
         <dd class="col-6">
             <select>
-                <option>lel</option>
+                @{
+                    int maxTeilnehmer = Model.EdMaxTeilnehmer;
+                    int aktTeilnehmer = Model.EdAktTeilnehmer;
+                    int difference = maxTeilnehmer - aktTeilnehmer;
+
+                    for (int i = 1; i < difference; i++)
+                    {
+                        <option>@i</option>
+                    }
+                }
             </select>
         </dd>
         <dd class="col-6">
