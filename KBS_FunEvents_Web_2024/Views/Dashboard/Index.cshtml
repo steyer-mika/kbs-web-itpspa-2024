@@ -1,8 +1,72 @@
 ﻿
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Dashboard";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
 
-<h1>Index</h1>
+<h1>Dashboard</h1>
+<h2 id="welcomeUser">Hallo [USERNAME]</h2>
 
+<br />
+<hr />
+<br />
+
+<div class="container-fluid">
+    <div class="container-fluid row">
+        <div class="card col-xs-12 col-sm-12 col-md-6 col-lg-4" style="border-radius: 20px;">
+            <div class="card-header">
+                <p class="card-title" style="text-align: center;">Anzahl durchgeführte Events:</p>
+            </div>
+            <div class="card-body">
+                <p id="counterFinishedEvents" class="card-text" style="text-align: center;">0</p>
+            </div>
+        </div>
+
+        <div class="card col-xs-12 col-sm-12 col-md-6 col-lg-4" style="border-radius: 20px;">
+            <div class="card-header">
+                <p class="card-title" style="text-align: center;">Anzahl aktive Buchungen:</p>
+            </div>
+            <div class="card-body">
+                <p id="counterActiveBookings" class="card-text" style="text-align: center;">0</p>
+            </div>
+        </div>
+
+        <div class="card col-xs-12 col-sm-12 col-md-6 col-lg-4" style="border-radius: 20px;">
+            <div class="card-header">
+                <p class="card-title" style="text-align: center;">Anzahl stornierte Events:</p>
+            </div>
+            <div class="card-body">
+                <p id="counterCanceledEvents" class="card-text" style="text-align: center;">0</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br />
+<hr />
+<br />
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="card col-xs-12 col-sm-12 col-md-6" style="border-radius: 10px;">
+            <div class="card-body">
+                <h2 id="eventCardTitle" class="card-title">Ihr Event am ...</h2>
+                <h3 id="eventCardSubtitle" class="card-subtitle">Heli Skiing am Mount Mc Kinley</h3>
+                <p id="eventCardText" class="card-text">Mit dem Hubschrauber ins reine Wintervergnügen. Flug, unterkunft und Verplegung incl.</p>
+                <br/>
+                <a id="eventCardBtnDetails" class="card-footer" href="~/Details">Zu den Details...</a>
+            </div>
+        </div>
+
+        <div class="card col-xs-12 col-sm-12 col-md-6" style="border-radius: 10px;">
+            <div class="card-body">
+                <h2 id="searchEventCardTitle" class="card-title">Event suchen</h2>
+                <h3 id="searchEventCardSubtitle" class="card-subtitle">Weiteres Abenteuer starten</h3>
+                <p id="searchEventCardText" class="card-text">Ihr nächstes Event wartet bereits auf Sie! Sehen Sie sich die aktuelen Veranstaltungen an und starten Sie ein neues Abenteuer.</p>
+                <br />
+                <a id="eventCardBtnEvents" class="card-footer" href="~/Events">Zu den Events...</a>
+            </div>
+        </div>
+
+    </div>
+</div>
