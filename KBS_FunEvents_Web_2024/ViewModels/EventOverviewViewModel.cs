@@ -31,6 +31,8 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         public decimal EdPreis { get; set; }
 
         public int EdMaxTeilnehmer { get; set; }
+
+        [Display(Name = "Freie Plätze")]
         public int EdAktTeilnehmer { get; set; }
 
 

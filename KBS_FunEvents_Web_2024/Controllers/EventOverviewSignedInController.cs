@@ -28,6 +28,13 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View("Index", vm);
         }
 
+        public IActionResult GetAllDatesOfEvent(int eventId)
+        {
+            var vm = GetDatesForEvents(eventId);
+
+            return View("AllDates", vm);
+        }
+
         // GET: EventViewModels/Details/5
 
         private List<EventOverviewViewModel> GetData()
@@ -51,7 +58,33 @@ namespace KBS_FunEvents_Web_2024.Controllers
             }
 
             return dataForVM;
-
         }
+
+        private List<EventOverviewViewModel> GetDatesForEvents(int id)
+        {
+            var eventName = _context.TblEvents.FirstOrDefault(x => x.EtEventId == id).EtBezeichnung;
+            var eventDetails = _context.TblEventDatens.Where(x => x.EtEventId == id);
+
+            List<EventOverviewViewModel> dataForVM = new List<EventOverviewViewModel>();
+
+            foreach (var eventDetail in eventDetails)
+            {
+
+                EventOverviewViewModel ev = new EventOverviewViewModel
+                {
+                    EtEventId = eventDetail.EtEventId,
+                    EtBezeichnung = eventName,
+                    EdBeginn = eventDetail.EdBeginn,
+                    EdStartOrt = eventDetail.EdStartOrt,
+                    EdPreis = eventDetail.EdPreis,
+                    EdAktTeilnehmer = eventDetail.EdAktTeilnehmer
+                };
+
+                dataForVM.Add(ev);
+            }
+
+            return dataForVM;
+        }
+
     }
 }
