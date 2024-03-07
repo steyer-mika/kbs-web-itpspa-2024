@@ -9,9 +9,10 @@
 
     List<SelectListItem> bookPlaceItems = new List<SelectListItem>();
 
-    for (int i = 1; i < difference; i++)
+    for (int i = 0; i < difference; i++)
     {
-        bookPlaceItems.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+        string value = (++i).ToString();
+        bookPlaceItems.Add(new SelectListItem { Value = value, Text = value });
     }
 }
 
@@ -99,13 +100,31 @@
         </dt> 
     </dl>
     <dl class="row">
-        <dd class="col-6">
-            <select asp-items="bookPlaceItems" asp-for="BookedPlaces" name="bookedPlaces"></select>
-            <input style="display: none;" asp-for="EdEvDatenId" value="@Model.EdEvDatenId"/>
-        </dd>
-        <dd class="col-6">
-                <button type="submit" class="btn btn-success">Event Buchen</button>
-        </dd>
+        @{
+            if (difference > 0)
+            {
+                <dd class="col-6">
+                    <select asp-items="bookPlaceItems" asp-for="BookedPlaces" name="bookedPlaces"></select>
+                    <input style="display: none;" asp-for="EdEvDatenId" value="@Model.EdEvDatenId" />
+                </dd>
+                <dd class="col-6">
+                    <button type="submit" class="btn btn-success">Event Buchen</button>
+                </dd>
+            }
+            else
+            {
+                <dd class="col-6">
+                    <select>
+                        <option>Keine freien Plätze</option>
+                    </select>
+                </dd>
+                <dd class="col-6">
+                    <button type="submit" class="btn btn-dark disabled" disabled>Event Buchen</button>
+                </dd>
+            }
+        }
+
+
     </dl>
     <dl class="row">
         <dd class="col-6">
