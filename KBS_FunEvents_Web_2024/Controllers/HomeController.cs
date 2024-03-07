@@ -58,10 +58,10 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View("Events", result);
         }
 
-        public IActionResult GetEventDetails(int EtEventId )
+        public IActionResult EventDetails(int evId )
         {
-            //var restul = _kbsContext.TblEventDatens.
-            return View();
+            var result = _kbsContext.TblEventDatens.Where(x => x.EtEventId == evId).Include(x => x.EtEvent).ToList();
+            return View("EventDetail", result);
         }
 
 
