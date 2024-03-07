@@ -22,11 +22,8 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public async Task<IActionResult> Index()
         {
-
-            var vm = GetData();
-
-            return View("Index", vm);
-        }
+            var vm = GetEventDataForViewModel();
+            return View("Index", vm);        }
 
         public IActionResult GetAllDatesOfEvent(int eventId)
         {
@@ -35,9 +32,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View("AllDates", vm);
         }
 
-        // GET: EventViewModels/Details/5
-
-        private List<EventOverviewViewModel> GetData()
+        private List<EventOverviewViewModel> GetEventDataForViewModel()
         {
             var data = _context.TblEvents.Include(x => x.EkEvKategorie).Include(x => x.EvEvVeranstalter);
 
@@ -69,7 +64,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             foreach (var eventDetail in eventDetails)
             {
-
                 EventOverviewViewModel ev = new EventOverviewViewModel
                 {
                     EtEventId = eventDetail.EtEventId,
@@ -83,9 +77,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
                 dataForVM.Add(ev);
             }
-
             return dataForVM;
         }
-
     }
 }
