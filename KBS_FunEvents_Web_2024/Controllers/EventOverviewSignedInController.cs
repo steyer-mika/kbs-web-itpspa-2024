@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
 using Microsoft.EntityFrameworkCore;
 using KBS_FunEvents_Web_2024.Models;
 using KBS_FunEvents_Web_2024.ViewModels;
@@ -19,7 +20,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
             _context = context;
         }
 
-        // GET: EventViewModels
         public async Task<IActionResult> Index()
         {
 

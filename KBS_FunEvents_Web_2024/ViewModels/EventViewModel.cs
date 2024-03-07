@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace KBS_FunEvents_Web_2024.ViewModels
 {
-
-    public class EventOverviewViewModel
+    public class EventViewModel
     {
         [Key]
         public int EtEventId { get; set; }
@@ -23,7 +22,6 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         public int EvEvVeranstalterId { get; set; }
 
 
-
         [Display(Name = "Startort des Events")]
         public string EdStartOrt { get; set; }
 
@@ -32,8 +30,6 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         public decimal EdPreis { get; set; }
 
         public int EdMaxTeilnehmer { get; set; }
-
-        [Display(Name = "Freie Plätze")]
         public int EdAktTeilnehmer { get; set; }
 
 
