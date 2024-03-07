@@ -5,10 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace KBS_FunEvents_Web_2024.Controllers
@@ -120,8 +117,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         }
         public async Task<IActionResult> Logout()
         {
-            HttpContext.Session.Remove("KundenID");
-            HttpContext.Session.Remove("Email");
+            HttpContext.Session.Clear();
 
             return RedirectToAction("Login");
         }
