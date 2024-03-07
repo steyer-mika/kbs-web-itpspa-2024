@@ -1,5 +1,6 @@
 ﻿using KBS_FunEvents_Web_2024.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -53,8 +54,14 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult GetEvents()
         {
-            var result = _kbsContext.TblEvents;
-            return View(result);
+            var result = _kbsContext.TblEvents.Include(x => x.EkEvKategorie).Include(y => y.EvEvVeranstalter).ToList();
+            return View("Events", result);
+        }
+
+        public IActionResult GetEventDetails(int EtEventId )
+        {
+            //var restul = _kbsContext.TblEventDatens.
+            return View();
         }
 
 
