@@ -1,72 +1,35 @@
-﻿@model KBS_FunEvents_Web_2024.ViewModels.EventOverviewViewModel
+﻿@model List<KBS_FunEvents_Web_2024.ViewModels.EventOverviewViewModel>
 
 @{
     ViewData["Title"] = "View";
 }
 
-<h1>View</h1>
-
 <div>
-    <h4>Aktuelle Termine</h4>
+
     <hr />
-    @foreach (var item in Model.eventViewModels)
-    {
-        <hr />
-        <div class="container">
-            <div class="row">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Eventbezeichnung</th>
-                                <th scope="col">Beginn des Events</th>
-                                <th scope="col">Standort des Events</th>
-                                <th scope="col">Preis pro Teilnehmer</th>
-                                <th scope="col">Freie Plätze</th>
-                                <th scope="col">Sie wollen teilnehmen?</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                
-                            </tr>
-                        </tbody>
-                    </table>
-            </div>
-            <a href="#"> Zurück  zur Eventübersicht</a>
-        </div>
-       
-          
-        <dl class="row">
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => item.EtBezeichnung)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.EtBezeichnung)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => item.EdPreis)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.EdPreis)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => item.EdBeginn)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.EdBeginn)
-            </dd>
-            <dt class="col-sm-2">
-                @Html.DisplayNameFor(model => item.EdStartOrt)
-            </dt>
-            <dd class="col-sm-10">
-                @Html.DisplayFor(model => item.EdStartOrt)
-            </dd>
-        </dl>
-        <div>
-            <a asp-action="Edit" asp-route-id="@item.EtEventId">Edit</a> |
-            <a asp-action="Index">Back to List</a>
-        </div>
-    }
+    <h1>
+        Alle Events im Überblick
+    </h1>
 
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EtBezeichnung)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EkKatBezeichnung)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EvFirma)</th>
+                <th scope="col">Termine</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.EtBezeichnung)</td>
+                    <td>@Html.DisplayFor(model => item.EkKatBezeichnung)</td>
+                    <td>@Html.DisplayFor(model => item.EvFirma)</td>
+                    <td><a asp-action="GetAllDatesOfEvent" asp-route-eventId="@item.EtEventId">Zu den Termine...</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>
-

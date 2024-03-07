@@ -100,6 +100,6 @@ namespace KBS_FunEvents_Web_2024.Models
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
-        public DbSet<KBS_FunEvents_Web_2024.ViewModels.EventOverviewViewModel> EventViewModel { get; set; }
+        //public DbSet<EventOverviewViewModel> EventViewModel { get; set; }
     }
 }

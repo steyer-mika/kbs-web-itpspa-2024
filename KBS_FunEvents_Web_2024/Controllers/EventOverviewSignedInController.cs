@@ -22,29 +22,69 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public async Task<IActionResult> Index()
         {
-            
-            EventOverviewViewModel evViewModels = GetAllEventModels();
-            return View(evViewModels);
+
+            var vm = GetData();
+
+            return View("Index", vm);
         }
 
-        private EventOverviewViewModel GetAllEventModels()
+        public IActionResult GetAllDatesOfEvent(int eventId)
         {
-            var allEvents = _context.TblEvents;
-            EventOverviewViewModel evViewModels = new EventOverviewViewModel();
+            var vm = GetDatesForEvents(eventId);
 
-            foreach (var item in allEvents)
+            return View("AllDates", vm);
+        }
+
+        // GET: EventViewModels/Details/5
+
+        private List<EventOverviewViewModel> GetData()
+        {
+            var data = _context.TblEvents.Include(x => x.EkEvKategorie).Include(x => x.EvEvVeranstalter);
+
+            List<EventOverviewViewModel> dataForVM = new List<EventOverviewViewModel>();
+
+            foreach (var eventData in data)
             {
-                EventViewModel newViewModel = new EventViewModel();
-                
-                newViewModel.EtEventId = item.EtEventId;
-                newViewModel.EtBezeichnung = item.EtBezeichnung;
-                newViewModel.EkEvKategorieId = item.EkEvKategorieId;
-                newViewModel.EvEvVeranstalterId = item.EvEvVeranstalterId;
 
-                evViewModels.eventViewModels.Add(newViewModel);
+                EventOverviewViewModel ev = new EventOverviewViewModel
+                {
+                    EtEventId = eventData.EtEventId,
+                    EtBezeichnung = eventData.EtBezeichnung,
+                    EkKatBezeichnung = eventData.EkEvKategorie.EkKatBezeichnung,
+                    EvFirma = eventData.EvEvVeranstalter.EvFirma
+                };
+
+                dataForVM.Add(ev);
             }
 
-            return evViewModels;
+            return dataForVM;
         }
+
+        private List<EventOverviewViewModel> GetDatesForEvents(int id)
+        {
+            var eventName = _context.TblEvents.FirstOrDefault(x => x.EtEventId == id).EtBezeichnung;
+            var eventDetails = _context.TblEventDatens.Where(x => x.EtEventId == id);
+
+            List<EventOverviewViewModel> dataForVM = new List<EventOverviewViewModel>();
+
+            foreach (var eventDetail in eventDetails)
+            {
+
+                EventOverviewViewModel ev = new EventOverviewViewModel
+                {
+                    EtEventId = eventDetail.EtEventId,
+                    EtBezeichnung = eventName,
+                    EdBeginn = eventDetail.EdBeginn,
+                    EdStartOrt = eventDetail.EdStartOrt,
+                    EdPreis = eventDetail.EdPreis,
+                    EdAktTeilnehmer = eventDetail.EdAktTeilnehmer
+                };
+
+                dataForVM.Add(ev);
+            }
+
+            return dataForVM;
+        }
+
     }
 }
