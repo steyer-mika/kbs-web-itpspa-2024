@@ -32,30 +32,32 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-* navbar-dark bg-dark fixed-top">
-            <a class="navbar-brand" href="#">Kundenbereich</a>
-            <button class="navbar-toggler" onclick="openSidebar()"><span class="navbar-toggler-icon"></span></button>
-            <div class="sidebar" id="Sidebar">
-                <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
-                <a class="navbar-brand p-3" href="#">Menü</a>
-                <ul class="navbar-nav p-3">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Dashboard</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Meine aktiven Buchungen</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Neues Event finden</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kundenkonto</a>
-                        <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Passwort ändern</a>
-                            <a class="dropdown-item" href="#">Logout</a>
-                        </div>
-                    </li>
-                </ul>
+        <nav class="navbar navbar-expand-* navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Dashboard" asp-action="Index">Kundenbereich</a>
+                <button class="navbar-toggler" onclick="openSidebar()"><span class="navbar-toggler-icon"></span></button>
+                <div class="sidebar" id="Sidebar">
+                    <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
+                    <a class="navbar-brand text-white p-3" >Menü</a>
+                    <ul class="navbar-nav p-3">
+                        <li class="nav-item">
+                            <a class="nav-link active" asp-area="" asp-controller="Dashboard" asp-action="Index">Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Dashboard" asp-action="Index">Meine aktiven Buchungen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Dashboard" asp-action="Index">Neues Event finden</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kundenkonto</a>
+                            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Password">Passwort ändern</a>
+                                <a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
         <script>
