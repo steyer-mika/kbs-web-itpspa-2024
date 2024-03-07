@@ -23,27 +23,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult Index()
         {
-                        TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
-            
-            if (eventDaten == null)
-            {
-                return View();
-            }
-
-            TblEvent baseEvent = _kbsContext.TblEvents.Find(eventDaten.EtEventId);
-            
-            DashboardModelView mv = new DashboardModelView();
-
-            mv.EdBeginn = eventDaten.EdBeginn;
-            mv.EtBeschreibung = baseEvent.EtBeschreibung;
-            mv.EtBezeichnung = baseEvent.EtBezeichnung;
-
-            return View(mv);
-        }
-
-        public IActionResult Dashboard(int id)
-        {            
-
+            int id = 1; 
             TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
             
             if (eventDaten == null)
@@ -61,5 +41,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return View(mv);
         }
+
+     
     }
 }
