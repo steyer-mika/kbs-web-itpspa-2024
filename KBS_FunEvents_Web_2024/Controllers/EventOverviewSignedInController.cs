@@ -77,7 +77,8 @@ namespace KBS_FunEvents_Web_2024.Controllers
                     EdBeginn = eventDetail.EdBeginn,
                     EdStartOrt = eventDetail.EdStartOrt,
                     EdPreis = eventDetail.EdPreis,
-                    EdAktTeilnehmer = eventDetail.EdAktTeilnehmer
+                    EdAktTeilnehmer = eventDetail.EdAktTeilnehmer,
+                    EdMaxTeilnehmer = eventDetail.EdMaxTeilnehmer,                   
                 };
 
                 dataForVM.Add(ev);
