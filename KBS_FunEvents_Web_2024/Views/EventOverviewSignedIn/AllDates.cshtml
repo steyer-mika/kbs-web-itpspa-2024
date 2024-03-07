@@ -1,0 +1,37 @@
+﻿@model List<KBS_FunEvents_Web_2024.ViewModels.EventOverviewViewModel>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<div>
+    <hr />
+    <h1>
+        Aktuelle Termine
+    </h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EtBezeichnung)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdBeginn)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdStartOrt)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdPreis)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdAktTeilnehmer)</th>
+                <th scope="col">Sie wollen teilnehmen?</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.EtBezeichnung)</td>
+                    <td>@Html.DisplayFor(model => item.EdBeginn)</td>
+                    <td>@Html.DisplayFor(model => item.EdStartOrt)</td>
+                    <td>@Html.DisplayFor(model => item.EdPreis)</td>
+                    <td>@(item.EdMaxTeilnehmer - item.EdAktTeilnehmer)</td>
+                    <td><a asp-action="Index" asp-controller="Bookings" asp-route-eventId="@item.EtEventId" hidden="@(item.EdAktTeilnehmer >= item.EdMaxTeilnehmer)">Zur Buchung...</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

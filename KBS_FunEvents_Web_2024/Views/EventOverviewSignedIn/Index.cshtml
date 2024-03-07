@@ -1,0 +1,33 @@
+﻿@model List<KBS_FunEvents_Web_2024.ViewModels.EventOverviewViewModel>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<div>
+    <hr />
+    <h1>
+        Alle Events im Überblick
+    </h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EtBezeichnung)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EkKatBezeichnung)</th>
+                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EvFirma)</th>
+                <th scope="col">Termine</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(model => item.EtBezeichnung)</td>
+                    <td>@Html.DisplayFor(model => item.EkKatBezeichnung)</td>
+                    <td>@Html.DisplayFor(model => item.EvFirma)</td>
+                    <td><a asp-action="GetAllDatesOfEvent" asp-route-eventId="@item.EtEventId">Zu den Termine...</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
