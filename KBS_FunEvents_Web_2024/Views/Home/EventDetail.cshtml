@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "EventDetail";
+}
+<div class="text-center">
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text;
+        }
+
+        .container {
+            text-align: left;
+        }
+    </style>
+
+    <div class="container">
+        <h1>Aktuelle Events im Angebot</h1>
+
+        @Html.BeginForm(FormMethod.Get, Html)
+        
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Eventbezeichnung</th>
+                    <th>Beginn des Events</th>
+                    <th>Startort des Events</th>
+                    <th>Preis pro Teilnehmer</th>
+                    <th>Freie Plätze</th>
+                    <th>Sie wollen teilnehmen?</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><button>Login</button>|<button>Registrieren</button></td>
+                </tr>
+            </tbody>
+        </table>
+       
+        <br />
+        <button>Zurück zur Eventübersicht</button>
+
+
+    </div>
+</div>
