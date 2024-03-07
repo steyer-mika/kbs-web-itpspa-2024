@@ -47,5 +47,7 @@ namespace KBS_FunEvents_Web_2024.ViewModel
 
         [Display(Name = "Beschreibung des Events")]
         public string EventDescription { get; set; }
+
+        public int BookedPlaces { get; set; }
     }
 }

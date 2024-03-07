@@ -59,21 +59,22 @@ namespace KBS_FunEvents_Web_2024.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Booking(int eventDataId, int bookedPlaces)
+        public ActionResult Booking([Bind("EdEvDatenId,BookedPlaces")] BookingViewModel bookingViewModel)
         {
-            if (ModelState.IsValid == false) return View();
+            int eventDataId = bookingViewModel.EdEvDatenId;
+            int bookedPlaces = bookingViewModel.BookedPlaces;
 
             TblEventDaten eventDaten = _dbContext.TblEventDatens.Where(t => t.EdEvDatenId == eventDataId).FirstOrDefault();
 
-            if (eventDaten == null) return View();
+            if (eventDaten == null) return View("Index");
 
             if (eventDaten.EdAktTeilnehmer + bookedPlaces > eventDaten.EdMaxTeilnehmer)
             {
-                return View();
+                return View("Index");
             }
 
             int? customerId = HttpContext.Session.GetInt32("KundenID");
-            if (customerId == null) return View();
+            if (customerId == null) return View("Index");
 
             TblBuchungen booking = new();
             booking.BuBezahlt = false;
@@ -87,9 +88,9 @@ namespace KBS_FunEvents_Web_2024.Controllers
             eventDaten.EdAktTeilnehmer += bookedPlaces;
             _dbContext.TblEventDatens.Update(eventDaten);
 
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
 
-            return View();
+            return View("Index");
         }
     }
 }

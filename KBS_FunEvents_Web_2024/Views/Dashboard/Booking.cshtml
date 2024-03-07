@@ -2,6 +2,17 @@
 
 @{
     ViewData["Title"] = "Buchung des Events";
+
+    int maxTeilnehmer = Model.EdMaxTeilnehmer;
+    int aktTeilnehmer = Model.EdAktTeilnehmer;
+    int difference = maxTeilnehmer - aktTeilnehmer;
+
+    List<SelectListItem> bookPlaceItems = new List<SelectListItem>();
+
+    for (int i = 1; i < difference; i++)
+    {
+        bookPlaceItems.Add(new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+    }
 }
 
 <h1>Buchung des Events</h1>
@@ -78,7 +89,7 @@
 
 </div>
 <hr />
-<div>
+<form method="post" asp-action="Booking">
     <dl class="row">
         <dt class="col-6">
             Anzahl Plätze wählen:
@@ -89,21 +100,11 @@
     </dl>
     <dl class="row">
         <dd class="col-6">
-            <select>
-                @{
-                    int maxTeilnehmer = Model.EdMaxTeilnehmer;
-                    int aktTeilnehmer = Model.EdAktTeilnehmer;
-                    int difference = maxTeilnehmer - aktTeilnehmer;
-
-                    for (int i = 1; i < difference; i++)
-                    {
-                        <option>@i</option>
-                    }
-                }
-            </select>
+            <select asp-items="bookPlaceItems" asp-for="BookedPlaces" name="bookedPlaces"></select>
+            <input style="display: none;" asp-for="EdEvDatenId" value="@Model.EdEvDatenId"/>
         </dd>
         <dd class="col-6">
-            <button aps-action="" class="btn btn-success">Event Buchen</button>
+                <button type="submit" class="btn btn-success">Event Buchen</button>
         </dd>
     </dl>
     <dl class="row">
@@ -111,4 +112,4 @@
             <a asp-action="Index">Zurück zu den Events...</a>
         </dd>
     </dl>
-</div>
+</form>
