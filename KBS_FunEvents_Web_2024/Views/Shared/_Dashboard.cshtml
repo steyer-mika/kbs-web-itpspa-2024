@@ -6,43 +6,66 @@
     <title>@ViewData["Title"] - FunEvents GmbH</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            right: 0;
+            background-color: black;
+            overflow-x: hidden;
+            transition: 0.5s;
+            padding-top: 10px;
+        }
+
+        .sidebar .close-btn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-dark bg-dark fixed-top">
-            <div class="container">
-                <a class="navbar-brand" href="#">Kundenbereich</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                    <div class="offcanvas-header">
-                        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menü</h5>
-                        <button type="button" class="btn-close btn-close-white text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                    <div class="offcanvas-body">
-                        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="#">Dashboard</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Meine aktiven Buchungen</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Neues Event finden</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" id="offcanvasNavbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Kundenkonto</a>
-                                <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="offcanvasNavbarDropdown">
-                                    <li><a class="dropdown-item" href="#">Passwort ändern</a></li>
-                                    <li><a class="dropdown-item" href="#">Logout</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
+        <nav class="navbar navbar-expand-* navbar-dark bg-dark fixed-top">
+            <a class="navbar-brand" href="#">Kundenbereich</a>
+            <button class="navbar-toggler" onclick="openSidebar()"><span class="navbar-toggler-icon"></span></button>
+            <div class="sidebar" id="Sidebar">
+                <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
+                <a class="navbar-brand p-3" href="#">Menü</a>
+                <ul class="navbar-nav p-3">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Meine aktiven Buchungen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Neues Event finden</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kundenkonto</a>
+                        <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="#">Passwort ändern</a>
+                            <a class="dropdown-item" href="#">Logout</a>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </nav>
+        <script>
+            function openSidebar() {
+                document.getElementById("Sidebar").style.width = "250px";
+            }
+            function closeSidebar() {
+                document.getElementById("Sidebar").style.width = "0";
+            }
+        </script>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
