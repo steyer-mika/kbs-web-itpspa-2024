@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using KBS_FunEvents_Web_2024.Models;
 using Microsoft.EntityFrameworkCore;
 using KBS_FunEvents_Web_2024.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -23,28 +24,22 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
-
-        public IActionResult Dashboard(int id)
-        {            
-
-            TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
-            
-            if (eventDaten == null)
+            if (HttpContext.Session.GetInt32("KundenID") != null)
             {
-                return View();
+                int id = (Int32)HttpContext.Session.GetInt32("KundenID");
+                TblKunden kundenDaten = _kbsContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
+                TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
+                TblEvent baseEvent = _kbsContext.TblEvents.Find(eventDaten.EtEventId);
+                DashboardModelView mv = new DashboardModelView();
+                mv.EdBeginn = eventDaten.EdBeginn;
+                mv.EtBeschreibung = baseEvent.EtBeschreibung;
+                mv.EtBezeichnung = baseEvent.EtBezeichnung;
+
+                return View(kundenDaten);
+            } else
+            {
+                return BadRequest();
             }
-
-            TblEvent baseEvent = _kbsContext.TblEvents.Find(eventDaten.EtEventId);
-            
-            DashboardModelView mv = new DashboardModelView();
-
-            mv.EdBeginn = eventDaten.EdBeginn;
-            mv.EtBeschreibung = baseEvent.EtBeschreibung;
-            mv.EtBezeichnung = baseEvent.EtBezeichnung;
-
-            return View(mv);
         }
     }
 }
