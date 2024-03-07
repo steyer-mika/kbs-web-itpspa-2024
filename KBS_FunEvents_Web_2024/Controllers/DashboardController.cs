@@ -10,10 +10,12 @@ namespace KBS_FunEvents_Web_2024.Controllers
     public class DashboardController : Controller
     {
         private ILogger<DashboardController> _logger;
+        private readonly kbsContext _kbsContext;
 
-        public DashboardController(ILogger<DashboardController> pLogger)
+        public DashboardController(ILogger<DashboardController> pLogger, kbsContext kbsContext)
         {
             _logger = pLogger;
+            _kbsContext = kbsContext;
         }
 
         public IActionResult Index()
