@@ -24,31 +24,24 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult Index()
         {
-<<<<<<< HEAD
             if (HttpContext.Session.GetInt32("KundenID") != null)
             {
                 int id = (Int32)HttpContext.Session.GetInt32("KundenID");
                 TblKunden kundenDaten = _kbsContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
+                TblBuchungen buchungsDaten = _kbsContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
                 TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
                 TblEvent baseEvent = _kbsContext.TblEvents.Find(eventDaten.EtEventId);
                 DashboardModelView mv = new DashboardModelView();
-                mv.EdBeginn = eventDaten.EdBeginn;
-                mv.EtBeschreibung = baseEvent.EtBeschreibung;
-                mv.EtBezeichnung = baseEvent.EtBezeichnung;
+                mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
+                mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
+                mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
 
-                return View(kundenDaten);
-            } else
-=======
-            int id = 1; 
-            TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
-            
-            if (eventDaten == null)
->>>>>>> eabe712e1e26958912e5c89c8a33b9913c127482
+                return View(mv);
+            }
+            else
             {
                 return BadRequest();
             }
         }
-
-     
     }
 }

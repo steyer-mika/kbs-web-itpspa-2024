@@ -1,11 +1,9 @@
-﻿
+﻿@model KBS_FunEvents_Web_2024.ViewModels.DashboardModelView
+
 @{
-    ViewData["Title"] = "Dashboard";
+    ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Dashboard.cshtml";
 }
-
-<h1>Dashboard</h1>
-<h2 id="welcomeUser">Hallo [USERNAME]</h2>
 
 <br />
 <hr />
@@ -58,9 +56,9 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h2 id="eventCardTitle" class="card-title">Ihr Event am ...</h2>
-                    <h3 id="eventCardSubtitle" class="card-subtitle">Heli Skiing am Mount Mc Kinley</h3>
-                    <p id="eventCardText" class="card-text">Mit dem Hubschrauber ins reine Wintervergnügen. Flug, unterkunft und Verplegung incl.</p>
+                    <h2 id="eventCardTitle" class="card-title">Ihr Event am @Model.EdBeginn.Date.ToString("dd.MM.yyyy")</h2>
+                    <h3 id="eventCardSubtitle" class="card-subtitle"> @Html.DisplayFor(d => d.EtBezeichnung)</h3>
+                    <p id="eventCardText" class="card-text"> @Html.DisplayFor(d => d.EtBeschreibung)</p>
                     <br />
                     <a id="eventCardBtnDetails" class="card-footer" href="~/Details">Zu den Details...</a>
                 </div>
@@ -80,3 +78,8 @@
         </div>
     </div>
 </div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
