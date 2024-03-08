@@ -24,6 +24,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult Index()
         {
+<<<<<<< HEAD
             if (HttpContext.Session.GetInt32("KundenID") != null)
             {
                 int id = (Int32)HttpContext.Session.GetInt32("KundenID");
@@ -37,9 +38,17 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
                 return View(kundenDaten);
             } else
+=======
+            int id = 1; 
+            TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
+            
+            if (eventDaten == null)
+>>>>>>> eabe712e1e26958912e5c89c8a33b9913c127482
             {
                 return BadRequest();
             }
         }
+
+     
     }
 }
