@@ -11,6 +11,9 @@ namespace KBS_FunEvents_Web_2024.ViewModels
     {
         [Key]
         public int EtEventId { get; set; }
+
+        public int EdEvDatenId { get; set; }
+
         [Display(Name = "Eventbezeichnung")]
         public string EtBezeichnung { get; set; }
 

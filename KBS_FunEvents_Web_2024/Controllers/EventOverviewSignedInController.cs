@@ -67,6 +67,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 EventOverviewViewModel ev = new EventOverviewViewModel
                 {
                     EtEventId = eventDetail.EtEventId,
+                    EdEvDatenId = eventDetail.EdEvDatenId,
                     EtBezeichnung = eventName,
                     EdBeginn = eventDetail.EdBeginn,
                     EdStartOrt = eventDetail.EdStartOrt,

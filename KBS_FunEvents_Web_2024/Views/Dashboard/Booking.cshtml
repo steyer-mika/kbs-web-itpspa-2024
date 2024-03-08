@@ -11,7 +11,7 @@
 
     for (int i = 0; i < difference; i++)
     {
-        string value = (++i).ToString();
+        string value = (i + 1).ToString();
         bookPlaceItems.Add(new SelectListItem { Value = value, Text = value });
     }
 }
@@ -128,7 +128,7 @@
     </dl>
     <dl class="row">
         <dd class="col-6">
-            <a asp-action="Index">Zurück zu den Events...</a>
+            <a asp-action="GetAllDatesOfEvent" asp-controller="EventOverviewSignedIn" asp-route-eventId="@Model.EtEventId">Zurück zu den Events...</a>
         </dd>
     </dl>
 </form>

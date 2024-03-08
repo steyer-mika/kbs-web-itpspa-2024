@@ -29,9 +29,10 @@
                     <td>@Html.DisplayFor(model => item.EdStartOrt)</td>
                     <td>@Html.DisplayFor(model => item.EdPreis)</td>
                     <td>@(item.EdMaxTeilnehmer - item.EdAktTeilnehmer)</td>
-                    <td><a asp-action="Index" asp-controller="Bookings" asp-route-eventId="@item.EtEventId" hidden="@(item.EdAktTeilnehmer >= item.EdMaxTeilnehmer)">Zur Buchung...</a></td>
+                    <td><a asp-action="Booking" asp-controller="Dashboard" asp-route-id="@item.EdEvDatenId" hidden="@(item.EdAktTeilnehmer >= item.EdMaxTeilnehmer)">Zur Buchung...</a></td>
                 </tr>
             }
         </tbody>
     </table>
+    <a asp-action="Index" asp-controller="EventOverviewSignedIn">Zurück zu der Eventliste...</a>
 </div>
