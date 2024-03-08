@@ -40,8 +40,10 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult BookingDetail(int id)
         {
-            ViewBag.ID = id;
-            return View();
+
+            return RedirectToAction("GetDetailBookings", "Dashboard", new { id = id });
+
+            return View(id);
         }
 
         public IActionResult Bookings()

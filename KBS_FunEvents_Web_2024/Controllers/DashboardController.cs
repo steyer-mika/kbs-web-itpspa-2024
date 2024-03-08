@@ -36,7 +36,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         public IActionResult GetDetailBookings(int pId)
         {
             var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == _kundenId || x.BuBuchungsId == pId);
-            return View(result);
+            return RedirectToAction("BookingDetail", "Home", new { id = pId });
         }
 
         [HttpPost]
