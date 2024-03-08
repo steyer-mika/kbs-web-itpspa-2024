@@ -22,11 +22,13 @@ namespace KBS_FunEvents_Web_2024.Controllers
             _dbContext = dbContext;
         }
 
+        [RequireHttps]
         public IActionResult Index()
         {
             return View();
         }
 
+        [RequireHttps]
         public IActionResult Privacy()
         {
             ViewBag.kundenId = HttpContext.Session.GetInt32("KundenID");
@@ -40,6 +42,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [RequireHttps]
         public async Task<IActionResult> Login(LoginModelView login)
         {
             if (ModelState.IsValid)
@@ -60,6 +63,8 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return View(login);
         }
+
+        [RequireHttps]
         public async Task<IActionResult> Registration(RegistrationModelView registration)
         {
             if (ModelState.IsValid)
@@ -73,7 +78,9 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 var mail = registration.KdEmail;
                 var tel = registration.Telefon;
                 var password = registration.Passwort;
-                TblKunden existingCustomer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => mail == x.KdEmail || nname == x.KdName && vname == x.KdVorname && str == x.KdStrasse && hnummer == x.KdHnummer && plz == x.KdPlz && ort == x.KdOrt);
+                TblKunden existingCustomer = await _dbContext.TblKundens
+                    .FirstOrDefaultAsync(x => mail.ToLower() == x.KdEmail.ToLower() || nname.ToLower() == x.KdName.ToLower() && vname.ToLower() == x.KdVorname.ToLower()
+                    && str.ToLower() == x.KdStrasse.ToLower() && hnummer.ToLower() == x.KdHnummer.ToLower() && plz.ToLower() == x.KdPlz.ToLower() && ort.ToLower() == x.KdOrt.ToLower());
                 if (existingCustomer == null)
                 {
                     await _dbContext.AddAsync(new TblKunden
@@ -94,12 +101,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 {
                     if (string.IsNullOrEmpty(existingCustomer.KdEmail))
                     {
-                        existingCustomer.KdName = nname;
-                        existingCustomer.KdVorname = vname;
-                        existingCustomer.KdStrasse = str;
-                        existingCustomer.KdHnummer = hnummer;
-                        existingCustomer.KdPlz = plz;
-                        existingCustomer.KdOrt = ort;
                         existingCustomer.KdTelefon = tel;
                         existingCustomer.KdEmail = mail;
                         existingCustomer.KdPasswortHash = MD5Generator.getMD5Hash(password);
@@ -115,6 +116,8 @@ namespace KBS_FunEvents_Web_2024.Controllers
             }
             return View();
         }
+
+        [RequireHttps]
         public async Task<IActionResult> Logout()
         {
             HttpContext.Session.Clear();
