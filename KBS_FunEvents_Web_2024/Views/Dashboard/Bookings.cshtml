@@ -52,7 +52,7 @@
                         <td>@Html.DisplayFor(itemModel => item.EdEvDaten.EdStartOrt)</td>
                         <td>@Html.DisplayFor(itemModel => item.BuGebuchtePlaetze)</td>
                         <td>@Html.DisplayFor(itemModel => item.EdEvDaten.EdMaxTeilnehmer)</td>
-                        <td><a class="nav-link text-dark" asp-controller="Dashboard" asp-action="GetDetailBookings">Zur Buchung</a></td>
+                        <td><a class="nav-link text-dark" asp-controller="Dashboard" asp-action="GetDetailBookings" asp-route-pId="@item.BuBuchungsId">Zur Buchung</a></td>
                     </tr>
                 }
                 

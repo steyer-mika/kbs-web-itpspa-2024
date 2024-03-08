@@ -30,7 +30,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         public IActionResult GetActiveBookings()
         {
             //int? kundenId = HttpContext.Session.GetInt32("KundenId");
-            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId != 1).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
+            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == 1).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
             return View("Bookings", result);
         }
 
@@ -38,16 +38,21 @@ namespace KBS_FunEvents_Web_2024.Controllers
         public IActionResult GetDetailBookings(int pId)
         {
            // int? kundenId = HttpContext.Session.GetInt32("KundenId");
-            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == 1 || x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
+            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == 1 && x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
             return View("BookingDetail", result);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Stonierung(int pId)
         {
             var booking = kbsContext.TblBuchungens.FirstOrDefault(x => x.BuBuchungsId == pId);
             booking.BuStorniert = true;
-            return View();
+            //ToDo: Plätze Freigeben
+
+
+            kbsContext.Update(booking);
+            kbsContext.SaveChanges();
+            return RedirectToAction("GetActiveBookings");
         }
     }
 }

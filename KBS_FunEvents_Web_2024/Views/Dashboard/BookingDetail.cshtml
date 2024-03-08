@@ -67,13 +67,9 @@
                 <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EdPreis)</div>
             </div>
         </div>
+        <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Stonierung" asp-route-pId="@item.BuBuchungsId">Buchung Stonieren</a>
         <br />
         <br />
         <br />
-
-        @*<form method="post" asp-controller="Dashboard" asp-action="Stonierung">
-                <input type="submit" value="Stornieren">
-                <input type="hidden" name="pId" value="">
-            </form>*@
     }
 </div>
