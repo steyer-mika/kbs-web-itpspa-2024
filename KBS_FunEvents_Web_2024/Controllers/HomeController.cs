@@ -57,6 +57,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
                     HttpContext.Session.SetInt32("KundenID", customer.KdKundenId);
                     HttpContext.Session.SetString("Email", customer.KdEmail);
 
+
                     return RedirectToAction(controllerName: "Home", actionName: "Privacy");
                 }
             }
@@ -118,7 +119,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         }
 
         [RequireHttps]
-        public async Task<IActionResult> Logout()
+        public IActionResult Logout()
         {
             HttpContext.Session.Clear();
 
