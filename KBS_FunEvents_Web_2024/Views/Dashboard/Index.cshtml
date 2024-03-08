@@ -17,7 +17,7 @@
                     <p class="card-title text-center">Anzahl durchgeführte Events:</p>
                 </div>
                 <div class="card-body">
-                    <p id="counterFinishedEvents" class="card-text text-center">0</p>
+                    <p id="counterFinishedEvents" class="card-text text-center">@Html.DisplayFor(d => d.NumDurchgefuehrteEvents)</p>
                 </div>
             </div>
         </div>
@@ -29,7 +29,7 @@
                     <p class="card-title text-center">Anzahl aktive Buchungen:</p>
                 </div>
                 <div class="card-body">
-                    <p id="counterActiveBookings" class="card-text text-center">0</p>
+                    <p id="counterActiveBookings" class="card-text text-center">@Html.DisplayFor(d => d.NumAktiveBuchungen)</p>
                 </div>
             </div>
         </div>
@@ -39,7 +39,7 @@
                     <p class="card-title text-center">Anzahl stornierte Events:</p>
                 </div>
                 <div class="card-body">
-                    <p id="counterCanceledEvents" class="card-text text-center">0</p>
+                    <p id="counterCanceledEvents" class="card-text text-center">@Html.DisplayFor(d => d.NumStornierteBuchungen)</p>
                 </div>
             </div>
         </div>

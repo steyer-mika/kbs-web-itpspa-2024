@@ -36,6 +36,10 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
                 mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
 
+                mv.NumDurchgefuehrteEvents = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today).Count();
+                mv.NumAktiveBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).Count();
+                mv.NumStornierteBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == true).Count();
+
                 return View(mv);
             }
             else
