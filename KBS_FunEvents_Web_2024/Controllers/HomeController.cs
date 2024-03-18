@@ -37,6 +37,19 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View();
         }
 
+
+        [RequireHttps]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [RequireHttps]
+        public IActionResult Informations()
+        {
+            return View();
+        }
+
         public IActionResult GetEvents()
         {
             var result = _dbContext.TblEvents.Include(x => x.EkEvKategorie).Include(y => y.EvEvVeranstalter).ToList();
