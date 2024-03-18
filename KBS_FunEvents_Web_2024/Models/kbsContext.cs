@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
+using KBS_FunEvents_Web_2024.ViewModels;
 
 #nullable disable
 
@@ -96,5 +98,9 @@ namespace KBS_FunEvents_Web_2024.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+
+        public DbSet<KBS_FunEvents_Web_2024.ViewModel.BookingViewModel> BookingViewModel { get; set; }
+        public DbSet<KBS_FunEvents_Web_2024.ViewModels.LoginModelView> LoginModelView { get; set; }
+        public DbSet<KBS_FunEvents_Web_2024.ViewModels.RegistrationModelView> RegistrationModelView { get; set; }
     }
 }

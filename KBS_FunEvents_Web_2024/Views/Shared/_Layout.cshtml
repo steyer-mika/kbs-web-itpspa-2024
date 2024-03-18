@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@inject IHttpContextAccessor HttpContextAccessor;
+@{
+    bool loggedIn = HttpContextAccessor.HttpContext.Session.GetInt32("KundenID") != null;
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -33,6 +39,28 @@
                         <li class="menu-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home">Registrierung</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="EventOverviewSignedIn" asp-action="Index">Event</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+                    <ul class="navbar-nav ml-auto">
+                        @if (loggedIn)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark me-auto" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark me-auto" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark me-auto" asp-area="" asp-controller="Home" asp-action="Registration">Register</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
