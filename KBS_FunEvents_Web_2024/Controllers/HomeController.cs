@@ -50,7 +50,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 var email = login.KdEmail;
                 var password = MD5Generator.getMD5Hash(login.KdPwHash);
 
-                TblKunden customer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => x.KdEmail == email && x.KdPasswortHash == password);
+                TblKunden customer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => x.KdEmail.ToLower() == email.ToLower() && x.KdPasswortHash == password);
 
                 if (customer != null)
                 {
