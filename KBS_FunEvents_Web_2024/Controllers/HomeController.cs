@@ -14,11 +14,10 @@ namespace KBS_FunEvents_Web_2024.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly kbsContext _kbsContext;
 
-        private readonly kbsContext _dbContext;
+        private readonly _dbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger, kbsContext dbContext)
+        public HomeController(ILogger<HomeController> logger, _dbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -40,13 +39,13 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult GetEvents()
         {
-            var result = _kbsContext.TblEvents.Include(x => x.EkEvKategorie).Include(y => y.EvEvVeranstalter).ToList();
+            var result = _dbContext.TblEvents.Include(x => x.EkEvKategorie).Include(y => y.EvEvVeranstalter).ToList();
             return View("Events", result);
         }
 
         public IActionResult EventDetails(int evId)
         {
-            var result = _kbsContext.TblEventDatens.Where(x => x.EtEventId == evId).Include(x => x.EtEvent).ToList();
+            var result = _dbContext.TblEventDatens.Where(x => x.EtEventId == evId).Include(x => x.EtEvent).ToList();
             return View("EventDetail", result);
         }
 

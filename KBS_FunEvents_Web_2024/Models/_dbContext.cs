@@ -6,13 +6,13 @@ using KBS_FunEvents_Web_2024.ViewModels;
 
 namespace KBS_FunEvents_Web_2024.Models
 {
-    public partial class kbsContext : DbContext
+    public partial class _dbContext : DbContext
     {
-        public kbsContext()
+        public _dbContext()
         {
         }
 
-        public kbsContext(DbContextOptions<kbsContext> options)
+        public _dbContext(DbContextOptions<_dbContext> options)
             : base(options)
         {
         }

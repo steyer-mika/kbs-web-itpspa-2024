@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace KBS_FunEvents_Web_2024
 {
@@ -28,7 +29,7 @@ namespace KBS_FunEvents_Web_2024
 
             services.AddControllersWithViews();
 
-            services.AddDbContext<kbsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<_dbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddHttpContextAccessor();
         }
 
