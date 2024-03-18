@@ -1,5 +1,3 @@
-using System;
-
 namespace KBS_FunEvents_Web_2024.Models
 {
     public class ErrorViewModel
