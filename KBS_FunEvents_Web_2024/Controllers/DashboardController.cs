@@ -1,12 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using KBS_FunEvents_Web_2024.Models;
-using Microsoft.AspNetCore.Http;
+﻿using KBS_FunEvents_Web_2024.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -37,7 +33,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult GetDetailBookings(int pId)
         {
-           // int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            // int? kundenId = HttpContext.Session.GetInt32("KundenId");
             var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == 1 && x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
             return View("BookingDetail", result);
         }
@@ -47,6 +43,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         {
             var booking = kbsContext.TblBuchungens.FirstOrDefault(x => x.BuBuchungsId == pId);
             booking.BuStorniert = true;
+            booking.BuGebuchtePlaetze = booking.BuGebuchtePlaetze - 1;
             //ToDo: Plätze Freigeben
 
 

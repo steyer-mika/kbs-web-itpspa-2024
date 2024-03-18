@@ -2,11 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -58,7 +55,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View("Events", result);
         }
 
-        public IActionResult EventDetails(int evId )
+        public IActionResult EventDetails(int evId)
         {
             var result = _kbsContext.TblEventDatens.Where(x => x.EtEventId == evId).Include(x => x.EtEvent).ToList();
             return View("EventDetail", result);
