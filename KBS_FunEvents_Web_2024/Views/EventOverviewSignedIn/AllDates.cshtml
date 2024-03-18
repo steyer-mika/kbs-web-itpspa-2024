@@ -9,30 +9,47 @@
     <h1>
         Aktuelle Termine
     </h1>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EtBezeichnung)</th>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdBeginn)</th>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdStartOrt)</th>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdPreis)</th>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EdAktTeilnehmer)</th>
-                <th scope="col">Sie wollen teilnehmen?</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
+    <hr />
+    @if (Model.Any())
+    {
+        <table class="table table-striped notopborder">
+            <thead>
                 <tr>
-                    <td>@Html.DisplayFor(model => item.EtBezeichnung)</td>
-                    <td>@Html.DisplayFor(model => item.EdBeginn)</td>
-                    <td>@Html.DisplayFor(model => item.EdStartOrt)</td>
-                    <td>@Html.DisplayFor(model => item.EdPreis)</td>
-                    <td>@(item.EdMaxTeilnehmer - item.EdAktTeilnehmer)</td>
-                    <td><a asp-action="Booking" asp-controller="Dashboard" asp-route-id="@item.EdEvDatenId" hidden="@(item.EdAktTeilnehmer >= item.EdMaxTeilnehmer)">Zur Buchung...</a></td>
+                    <th>@Html.DisplayNameFor(Model => Model[0].EtBezeichnung)</th>
+                    <th>@Html.DisplayNameFor(Model => Model[0].EdBeginn)</th>
+                    <th>@Html.DisplayNameFor(Model => Model[0].EdStartOrt)</th>
+                    <th>@Html.DisplayNameFor(Model => Model[0].EdPreis)</th>
+                    <th>@Html.DisplayNameFor(Model => Model[0].EdAktTeilnehmer)</th>
+                    <th>Sie wollen teilnehmen?</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(model => item.EtBezeichnung)</td>
+                        <td>@Html.DisplayFor(model => item.EdBeginn)</td>
+                        <td>@Html.DisplayFor(model => item.EdStartOrt)</td>
+                        <td>@Html.DisplayFor(model => item.EdPreis)</td>
+                        <td>@(item.EdMaxTeilnehmer - item.EdAktTeilnehmer)</td>
+                        <td>
+                            @if (item.EdAktTeilnehmer >= item.EdMaxTeilnehmer)
+                            {
+                                <p>leider ausgebucht</p>
+                            }
+                            else
+                            {
+                                <a asp-action="Booking" asp-controller="Dashboard" asp-route-id="@item.EdEvDatenId" hidden="@(item.EdAktTeilnehmer >= item.EdMaxTeilnehmer)">Zur Buchung...</a>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-danger">Aktuell gibt es leider keine Termine zu diesem Event!</p>
+    }
     <a asp-action="Index" asp-controller="EventOverviewSignedIn">Zurück zu der Eventliste...</a>
 </div>

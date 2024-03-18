@@ -60,6 +60,11 @@ namespace KBS_FunEvents_Web_2024.Controllers
             var eventName = _context.TblEvents.FirstOrDefault(x => x.EtEventId == id).EtBezeichnung;
             var eventDetails = _context.TblEventDatens.Where(x => x.EtEventId == id);
 
+            if (!eventDetails.Any())
+            {
+                return new List<EventOverviewViewModel>();
+            }
+
             List<EventOverviewViewModel> dataForVM = new List<EventOverviewViewModel>();
 
             foreach (var eventDetail in eventDetails)
