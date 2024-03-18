@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using KBS_FunEvents_Web_2024.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -12,7 +14,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
     {
         private ILogger<DashboardController> _logger;
         private kbsContext kbsContext;
-        private int _kundenId;
 
         public DashboardController(ILogger<DashboardController> pLogger, kbsContext dbContext)
         {
@@ -28,23 +29,30 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult GetActiveBookings()
         {
-            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == _kundenId);
-            return View(result);
+            //int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == 1).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
+            return View("Bookings", result);
         }
 
         [HttpGet]
         public IActionResult GetDetailBookings(int pId)
         {
-            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == _kundenId || x.BuBuchungsId == pId);
-            return RedirectToAction("BookingDetail", "Home", new { id = pId });
+           // int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            var result = kbsContext.TblBuchungens.Where(x => x.KdKundenId == 1 && x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
+            return View("BookingDetail", result);
         }
 
-        [HttpPost]
+        [HttpGet]
         public IActionResult Stonierung(int pId)
         {
             var booking = kbsContext.TblBuchungens.FirstOrDefault(x => x.BuBuchungsId == pId);
             booking.BuStorniert = true;
-            return View();
+            //ToDo: Plätze Freigeben
+
+
+            kbsContext.Update(booking);
+            kbsContext.SaveChanges();
+            return RedirectToAction("GetActiveBookings");
         }
     }
 }
