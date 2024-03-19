@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "BookingDetail";
+}
+@model IEnumerable<KBS_FunEvents_Web_2024.Models.TblBuchungen>
+<div class="text-center">
+
+    <style>
+        .detail {
+            display: inline-block;
+            width: 45%; /* Anpassen der Breite nach Bedarf */
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-weight: bold;
+        }
+    </style>
+
+
+    @foreach (var item in Model)
+    {
+        <h1>Details zum gebuchten Event</h1>
+        <div class="container">
+            <div class="detail">
+                <div class="label">Name des Events</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EtEvent.EtBezeichnung)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Beschreibung des Events</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EtEvent.EtBeschreibung)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Veranstalter</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EtEvent.EvEvVeranstalter.EvFirma)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Kategorie</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EtEvent.EkEvKategorie.EkKatBezeichnung)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Start des Events</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EdBeginn)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Ende des Events</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EdEnde)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Startort</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EdStartOrt)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Zielort</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EdZielort)</div>
+            </div>
+
+        </div>
+
+        <h1>Buchungsdaten</h1>
+        <div class="container">
+            <div class="detail">
+                <div class="label">Gebuchte Plätze</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EdAktTeilnehmer)</div>
+            </div>
+            <div class="detail">
+                <div class="label">Preis pro Teilnehmer</div>
+                <div>@Html.DisplayFor(itemModel => item.EdEvDaten.EdPreis)</div>
+            </div>
+        </div>
+        <a class="nav-link text-dark" asp-controller="Dashboard" asp-action="Stonierung" asp-route-pId="@item.BuBuchungsId">Buchung Stonieren</a>
+        <br />
+        <br />
+        <br />
+    }
+</div>
