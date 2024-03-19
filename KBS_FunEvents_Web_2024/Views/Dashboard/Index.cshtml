@@ -53,16 +53,27 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6">
-
-            <div class="card">
-                <div class="card-body">
-                    <h2 id="eventCardTitle" class="card-title">Ihr Event am @Model.EdBeginn.Date.ToString("dd.MM.yyyy")</h2>
-                    <h3 id="eventCardSubtitle" class="card-subtitle"> @Html.DisplayFor(d => d.EtBezeichnung)</h3>
-                    <p id="eventCardText" class="card-text"> @Html.DisplayFor(d => d.EtBeschreibung)</p>
-                    <br />
-                    <a id="eventCardBtnDetails" class="card-footer" href="~/Details">Zu den Details...</a>
-                </div>
-            </div>
+            @{if (Model.EdBeginn != null)
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 id="eventCardTitle" class="card-title">Ihr Event am @Model.EdBeginn.Value.ToString("dd.MM.yyyy")</h2>
+                            <h3 id="eventCardSubtitle" class="card-subtitle"> @Html.DisplayFor(d => d.EtBezeichnung)</h3>
+                            <p id="eventCardText" class="card-text"> @Html.DisplayFor(d => d.EtBeschreibung)</p>
+                            <br />
+                            <a id="eventCardBtnDetails" class="card-footer" href="~/Details">Zu den Details...</a>
+                        </div>
+                    </div>
+                } else
+                {
+                    <div class="card">
+                        <div class="card-body">
+                            <h2 id="eventCardTitle" class="card-title">Kein aktives Event</h2>
+                            <p id="eventCardText" class="card-text">Aktuell gibt es kein von Ihnen gebuchtes Event!</p>
+                        </div>
+                    </div>
+                }
+        }   
         </div>
 
         <div class="col-xs-12 col-sm-12 col-md-6">

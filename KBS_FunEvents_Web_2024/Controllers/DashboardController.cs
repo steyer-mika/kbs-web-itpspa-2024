@@ -24,28 +24,27 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetInt32("KundenID") != null)
+            int? id = HttpContext.Session.GetInt32("KundenID");
+
+            if (id == null) return BadRequest();
+            DashboardModelView mv = new DashboardModelView();
+            TblKunden kundenDaten = _kbsContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
+            TblBuchungen buchungsDaten = _kbsContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
+            TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
+
+            if(eventDaten != null)
             {
-                int id = (Int32)HttpContext.Session.GetInt32("KundenID");
-                TblKunden kundenDaten = _kbsContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
-                TblBuchungen buchungsDaten = _kbsContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
-                TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
                 TblEvent baseEvent = _kbsContext.TblEvents.Find(eventDaten.EtEventId);
-                DashboardModelView mv = new DashboardModelView();
                 mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
                 mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
                 mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
-
-                mv.NumDurchgefuehrteEvents = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today).Count();
-                mv.NumAktiveBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).Count();
-                mv.NumStornierteBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == true).Count();
-
-                return View(mv);
             }
-            else
-            {
-                return BadRequest();
-            }
+            
+            mv.NumDurchgefuehrteEvents = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today).Count();
+            mv.NumAktiveBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).Count();
+            mv.NumStornierteBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == true).Count();
+
+            return View(mv);
         }
     }
 }

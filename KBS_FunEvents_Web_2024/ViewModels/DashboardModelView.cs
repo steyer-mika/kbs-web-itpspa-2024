@@ -13,7 +13,7 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         public int id { get; set; }
 
         [Column("ed_Beginn", TypeName = "datetime")]
-        public DateTime EdBeginn { get; set; }
+        public DateTime? EdBeginn { get; set; }
 
         [Column("AnzDurchgeführteEvents", TypeName = "int")]
         public int NumDurchgefuehrteEvents { get; set; }
