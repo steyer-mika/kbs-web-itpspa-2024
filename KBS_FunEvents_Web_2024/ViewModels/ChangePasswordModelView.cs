@@ -15,7 +15,7 @@ namespace KBS_FunEvents_Web_2024.ViewModels
         [Required(ErrorMessage = "CurrentPassword*")]
         [Display(Name = "CurrentPassword")]
         [DataType(DataType.Password)]
-        public string CurrentPasswort { get; set; }
+        public string CurrentPassword { get; set; }
 
         [Required(ErrorMessage = "Passwort*")]
         [Display(Name = "Passwort")]
