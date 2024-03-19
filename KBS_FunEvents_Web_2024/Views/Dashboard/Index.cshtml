@@ -61,7 +61,7 @@
                             <h3 id="eventCardSubtitle" class="card-subtitle"> @Html.DisplayFor(d => d.EtBezeichnung)</h3>
                             <p id="eventCardText" class="card-text"> @Html.DisplayFor(d => d.EtBeschreibung)</p>
                             <br />
-                            <a id="eventCardBtnDetails" class="card-footer" href="~/Details">Zu den Details...</a>
+                            <a id="eventCardBtnDetails" class="card-footer" asp-area="" asp-controller="EventOverviewSignedIn" asp-action="Details">Zu den Details...</a>
                         </div>
                     </div>
                 } else
@@ -83,7 +83,7 @@
                     <h3 id="searchEventCardSubtitle" class="card-subtitle">Weiteres Abenteuer starten</h3>
                     <p id="searchEventCardText" class="card-text">Ihr nächstes Event wartet bereits auf Sie! Sehen Sie sich die aktuelen Veranstaltungen an und starten Sie ein neues Abenteuer.</p>
                     <br />
-                    <a id="eventCardBtnEvents" class="card-footer" href="~/Events">Zu den Events...</a>
+                    <a id="eventCardBtnEvents" class="card-footer" asp-area="" asp-controller="EventOverviewSignedIn" asp-action="Index">Zu den Events...</a>
                 </div>
             </div>
         </div>
