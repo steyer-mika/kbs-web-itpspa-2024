@@ -57,7 +57,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
                     HttpContext.Session.SetInt32("KundenID", customer.KdKundenId);
                     HttpContext.Session.SetString("Email", customer.KdEmail);
 
-                    return RedirectToAction(controllerName: "Home", actionName: "Privacy");
+                    return RedirectToAction(controllerName: "Dashboard", actionName: "Index");
                 }
             }
 
