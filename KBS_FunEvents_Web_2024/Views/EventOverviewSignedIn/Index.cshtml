@@ -9,13 +9,20 @@
     <h1>
         Alle Events im Überblick
     </h1>
-    <table class="table table-striped">
+    <hr />
+    <form>
+        <div class="d-flex">
+            @Html.TextBox("SearchString", null, new { @class = "form-control", @placeholder = "Search", @id = "searchInput" })
+            <button class="btn btn-primary ml-2" type="submit">Suchen</button>
+        </div>
+    </form>
+    <table class="table table-striped notopborder">
         <thead>
             <tr>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EtBezeichnung)</th>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EkKatBezeichnung)</th>
-                <th scope="col">@Html.DisplayNameFor(Model => Model[0].EvFirma)</th>
-                <th scope="col">Termine</th>
+                <th>@Html.DisplayNameFor(Model => Model[0].EtBezeichnung)</th>
+                <th>@Html.DisplayNameFor(Model => Model[0].EkKatBezeichnung)</th>
+                <th>@Html.DisplayNameFor(Model => Model[0].EvFirma)</th>
+                <th>Termine</th>
             </tr>
         </thead>
         <tbody>
