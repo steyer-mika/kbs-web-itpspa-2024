@@ -32,7 +32,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             TblBuchungen buchungsDaten = _kbsContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
             TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
 
-            if(eventDaten != null)
+            if (eventDaten != null)
             {
                 TblEvent baseEvent = _kbsContext.TblEvents.Find(eventDaten.EtEventId);
                 mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
@@ -46,5 +46,59 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return View(mv);
         }
+
+        public IActionResult ChangePassword(ChangePasswordModelView changing)
+        {
+            int? id = HttpContext.Session.GetInt32("KundenID");
+            var password = changing.Passwort;
+            var passwordWdh = changing.PasswortWDH;
+
+            if (password.Equals(passwordWdh))
+            {
+                // TODO:
+                // MD5Generator.getMD5Hash(password)
+            }
+
+            return View();
+        }
+
     }
+
+    /*
+    public Task<IActionResult> ChangePassword(ChangePasswordModelView changing)
+    {
+        int? id = HttpContext.Session.GetInt32("KundenID");
+        var password = changing.Passwort;
+        var passwordWdh = changing.PasswortWDH;
+
+        if (password.Equals(passwordWdh))
+        {
+                // TODO:
+                // MD5Generator.getMD5Hash(password)
+        }
+        /*
+        else
+        {
+            if (string.IsNullOrEmpty(existingCustomer.KdEmail))
+            {
+                existingCustomer.KdName = nname;
+                existingCustomer.KdVorname = vname;
+                existingCustomer.KdStrasse = str;
+                existingCustomer.KdHnummer = hnummer;
+                existingCustomer.KdPlz = plz;
+                existingCustomer.KdOrt = ort;
+                existingCustomer.KdTelefon = tel;
+                existingCustomer.KdEmail = mail;
+                existingCustomer.KdPasswortHash = MD5Generator.getMD5Hash(password);
+                await _dbContext.SaveChangesAsync();
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(registration.KdEmail), "Es existiert bereits ein Nutzer mit dieser Email");
+                return View();
+            }
+        } 
+        return Task.FromResult(View());
+    }*/
+
 }
