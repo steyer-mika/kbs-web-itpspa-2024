@@ -13,14 +13,14 @@ namespace KBS_FunEvents_Web_2024.Controllers
 {
     public class EventOverviewSignedInController : Controller
     {
-        private readonly kbsContext _context;
+        private readonly _dbContext _context;
 
-        public EventOverviewSignedInController(kbsContext context)
+        public EventOverviewSignedInController(_dbContext context)
         {
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             var vm = GetEventDataForViewModel();
             return View("Index", vm);        }

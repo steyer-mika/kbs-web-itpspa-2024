@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -14,9 +15,9 @@ namespace KBS_FunEvents_Web_2024.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly kbsContext _dbContext;
+        private readonly _dbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger, kbsContext dbContext)
+        public HomeController(ILogger<HomeController> logger, _dbContext dbContext)
         {
             _logger = logger;
             _dbContext = dbContext;
@@ -35,6 +36,35 @@ namespace KBS_FunEvents_Web_2024.Controllers
             ViewBag.email = HttpContext.Session.GetString("Email");
             return View();
         }
+
+
+        [RequireHttps]
+        public IActionResult Contact()
+        {
+            return View();
+        }
+
+        [RequireHttps]
+        public IActionResult Informations()
+        {
+            return View();
+        }
+
+        public IActionResult GetEvents()
+        {
+            if (HttpContext.Session.GetInt32("KundenID") != null)
+                return RedirectToAction(controllerName: "EventOverviewSignedIn", actionName: "Index");
+
+            var result = _dbContext.TblEvents.Include(x => x.EkEvKategorie).Include(y => y.EvEvVeranstalter).ToList();
+            return View("Events", result);
+        }
+
+        public IActionResult EventDetails(int evId)
+        {
+            var result = _dbContext.TblEventDatens.Where(x => x.EtEventId == evId).Include(x => x.EtEvent).ToList();
+            return View("EventDetail", result);
+        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

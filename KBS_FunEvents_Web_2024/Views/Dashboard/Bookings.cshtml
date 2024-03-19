@@ -1,0 +1,65 @@
+﻿@{
+    ViewData["Title"] = "GetActiveBookings";
+}
+@model IEnumerable<KBS_FunEvents_Web_2024.Models.TblBuchungen>
+<div class="text-center">
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: left;
+        }
+
+        .container {
+            text-align: left;
+        }
+    </style>
+
+    <div class="container">
+        <h1>Meine aktiven Buchungen</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Eventbezeichnung</th>
+                    <th>Eventbeginn</th>
+                    <th>Startort</th>
+                    <th>Gebuchte Plätze</th>
+                    <th>Anzahl Teilnehmer</th>
+                    <th>Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(itemModel => item.EdEvDaten.EtEvent.EtBezeichnung)</td>
+                        <td>@Html.DisplayFor(itemModel => item.EdEvDaten.EdBeginn)</td>
+                        <td>@Html.DisplayFor(itemModel => item.EdEvDaten.EdStartOrt)</td>
+                        <td>@Html.DisplayFor(itemModel => item.BuGebuchtePlaetze)</td>
+                        <td>@Html.DisplayFor(itemModel => item.EdEvDaten.EdMaxTeilnehmer)</td>
+                        <td><button><a class="nav-link text-dark" asp-controller="Dashboard" asp-action="GetDetailBookings" asp-route-pId="@item.BuBuchungsId">Zur Buchung</a></button></td>
+                    </tr>
+                }
+                
+            </tbody>
+        </table>
+        <br/>
+        <button>Zurück zum Dashboard</button>
+
+    </div>
+</div>

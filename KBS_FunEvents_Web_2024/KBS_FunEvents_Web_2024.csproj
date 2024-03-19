@@ -24,4 +24,8 @@
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
+  <ItemGroup>
+    <None Include="wwwroot\img\Home_MountainBike.PNG" />
+  </ItemGroup>
+
 </Project>
