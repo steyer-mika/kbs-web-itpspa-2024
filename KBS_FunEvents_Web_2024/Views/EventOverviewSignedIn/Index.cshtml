@@ -12,7 +12,7 @@
     <hr />
     <form>
         <div class="d-flex">
-            <input class="form-control" type="search" style="width:250px" name="SearchString" />
+            @Html.TextBox("SearchString", null, new { @class = "form-control", @placeholder = "Search", @id = "searchInput" })
             <button class="btn btn-primary ml-2" type="submit">Suchen</button>
         </div>
     </form>
