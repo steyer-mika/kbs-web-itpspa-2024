@@ -125,5 +125,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return RedirectToAction("Login");
         }
+
     }
 }
