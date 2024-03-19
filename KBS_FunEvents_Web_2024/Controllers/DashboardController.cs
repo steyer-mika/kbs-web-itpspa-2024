@@ -57,6 +57,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             {
                 // TODO:
                 // MD5Generator.getMD5Hash(password)
+                
             }
 
             return View();
