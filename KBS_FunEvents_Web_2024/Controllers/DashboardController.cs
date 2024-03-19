@@ -8,18 +8,19 @@ using KBS_FunEvents_Web_2024.Models;
 using Microsoft.EntityFrameworkCore;
 using KBS_FunEvents_Web_2024.ViewModels;
 using Microsoft.AspNetCore.Http;
+using KBS_FunEvents_Web_2024.ComputeHash;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
     public class DashboardController : Controller
     {
         private ILogger<DashboardController> _logger;
-        private readonly kbsContext _kbsContext;
+        private readonly kbsContext _dbContext;
 
         public DashboardController(ILogger<DashboardController> pLogger, kbsContext kbsContext)
         {
             _logger = pLogger;
-            _kbsContext = kbsContext;
+            _dbContext = kbsContext;
         }
 
         public IActionResult Index()
@@ -28,21 +29,21 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             if (id == null) return BadRequest();
             DashboardModelView mv = new DashboardModelView();
-            TblKunden kundenDaten = _kbsContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
-            TblBuchungen buchungsDaten = _kbsContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
-            TblEventDaten eventDaten = _kbsContext.TblEventDatens.Find(id);
+            TblKunden kundenDaten = _dbContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
+            TblBuchungen buchungsDaten = _dbContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
+            TblEventDaten eventDaten = _dbContext.TblEventDatens.Find(id);
 
             if (eventDaten != null)
             {
-                TblEvent baseEvent = _kbsContext.TblEvents.Find(eventDaten.EtEventId);
+                TblEvent baseEvent = _dbContext.TblEvents.Find(eventDaten.EtEventId);
                 mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
                 mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
                 mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
             }
             
-            mv.NumDurchgefuehrteEvents = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today).Count();
-            mv.NumAktiveBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).Count();
-            mv.NumStornierteBuchungen = _kbsContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == true).Count();
+            mv.NumDurchgefuehrteEvents = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today).Count();
+            mv.NumAktiveBuchungen = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).Count();
+            mv.NumStornierteBuchungen = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == true).Count();
 
             return View(mv);
         }
@@ -50,56 +51,24 @@ namespace KBS_FunEvents_Web_2024.Controllers
         public IActionResult ChangePassword(ChangePasswordModelView changing)
         {
             int? id = HttpContext.Session.GetInt32("KundenID");
+            var currentPassword = MD5Generator.getMD5Hash(changing.CurrentPasswort);
             var password = changing.Passwort;
             var passwordWdh = changing.PasswortWDH;
 
-            if (password.Equals(passwordWdh))
+            if(id != null)
             {
-                // TODO:
-                // MD5Generator.getMD5Hash(password)
-                
+                TblKunden existingCustomer = _dbContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
+
+                if (currentPassword.Equals(existingCustomer.KdPasswortHash) && password.Equals(passwordWdh))
+                {
+                    existingCustomer.KdPasswortHash = MD5Generator.getMD5Hash(password);
+                    _dbContext.TblKundens.Update(existingCustomer);
+                    _dbContext.SaveChanges();
+                }
             }
 
             return View();
         }
 
     }
-
-    /*
-    public Task<IActionResult> ChangePassword(ChangePasswordModelView changing)
-    {
-        int? id = HttpContext.Session.GetInt32("KundenID");
-        var password = changing.Passwort;
-        var passwordWdh = changing.PasswortWDH;
-
-        if (password.Equals(passwordWdh))
-        {
-                // TODO:
-                // MD5Generator.getMD5Hash(password)
-        }
-        /*
-        else
-        {
-            if (string.IsNullOrEmpty(existingCustomer.KdEmail))
-            {
-                existingCustomer.KdName = nname;
-                existingCustomer.KdVorname = vname;
-                existingCustomer.KdStrasse = str;
-                existingCustomer.KdHnummer = hnummer;
-                existingCustomer.KdPlz = plz;
-                existingCustomer.KdOrt = ort;
-                existingCustomer.KdTelefon = tel;
-                existingCustomer.KdEmail = mail;
-                existingCustomer.KdPasswortHash = MD5Generator.getMD5Hash(password);
-                await _dbContext.SaveChangesAsync();
-            }
-            else
-            {
-                ModelState.AddModelError(nameof(registration.KdEmail), "Es existiert bereits ein Nutzer mit dieser Email");
-                return View();
-            }
-        } 
-        return Task.FromResult(View());
-    }*/
-
 }
