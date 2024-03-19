@@ -50,15 +50,26 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 var email = login.KdEmail;
                 var password = MD5Generator.getMD5Hash(login.KdPwHash);
 
-                TblKunden customer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => x.KdEmail.ToLower() == email.ToLower() && x.KdPasswortHash == password);
+                TblKunden customer = await _dbContext.TblKundens.FirstOrDefaultAsync(x => x.KdEmail.ToLower() == email.ToLower());
 
                 if (customer != null)
                 {
-                    HttpContext.Session.SetInt32("KundenID", customer.KdKundenId);
-                    HttpContext.Session.SetString("Email", customer.KdEmail);
+                    if (customer.KdPasswortHash == password)
+                    {
+                        HttpContext.Session.SetInt32("KundenID", customer.KdKundenId);
+                        HttpContext.Session.SetString("Email", customer.KdEmail);
 
 
-                    return RedirectToAction(controllerName: "Home", actionName: "Privacy");
+                        return RedirectToAction(controllerName: "Home", actionName: "Privacy");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(nameof(login.KdPwHash), "Inkorrektes Passwort!");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(nameof(login.KdEmail), "Es ist kein Account für diese E-mail vorhanden, bitte registrieren Sie sich!");
                 }
             }
 
