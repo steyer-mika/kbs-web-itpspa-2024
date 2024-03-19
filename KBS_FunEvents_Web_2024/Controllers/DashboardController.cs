@@ -27,8 +27,13 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Booking(int id)
+        public async Task<IActionResult> Booking(int? id)
         {
+            if (id == null)
+            {
+                return View("Index");
+            }
+
             TblEventDaten eventDaten = await _dbContext.TblEventDatens.FindAsync(id);
 
             if (eventDaten == null)
@@ -90,13 +95,13 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             _dbContext.SaveChanges();
 
-            return View("Index");
+            return (ActionResult)GetDetailBookings(booking.BuBuchungsId);
         }
 
         [HttpGet]
         public IActionResult GetActiveBookings()
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            int? kundenId = HttpContext.Session.GetInt32("KundenID");
             var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
             return View("Bookings", result);
         }
@@ -104,7 +109,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult GetDetailBookings(int pId)
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            int? kundenId = HttpContext.Session.GetInt32("KundenID");
             var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId && x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
             return View("BookingDetail", result);
         }
