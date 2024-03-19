@@ -20,19 +20,20 @@ namespace KBS_FunEvents_Web_2024.Controllers
             _context = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString = "")
         {
-            var vm = GetEventDataForViewModel();
-            return View("Index", vm);        }
+            var vm = GetEventDataForViewModel(searchString);
+            return View("Index", vm);        
+        }
 
-        public IActionResult GetAllDatesOfEvent(int eventId)
+        public IActionResult GetAllDatesOfEvent(int eventId, string searchString = "")
         {
-            var vm = GetDatesForEvents(eventId);
+            var vm = GetDatesForEvents(eventId, searchString);
 
             return View("AllDates", vm);
         }
 
-        private List<EventOverviewViewModel> GetEventDataForViewModel()
+        private List<EventOverviewViewModel> GetEventDataForViewModel(string searchString)
         {
             var data = _context.TblEvents.Include(x => x.EkEvKategorie).Include(x => x.EvEvVeranstalter);
 
@@ -52,10 +53,18 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 dataForVM.Add(ev);
             }
 
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                return dataForVM.Where(x => 
+                    x.EkKatBezeichnung.ToLower().Contains(searchString.ToLower()) || 
+                    x.EtBezeichnung.ToLower().Contains(searchString.ToLower()) ||
+                    x.EvFirma.ToLower().Contains(searchString.ToLower())).ToList();
+            }
+
             return dataForVM;
         }
 
-        private List<EventOverviewViewModel> GetDatesForEvents(int id)
+        private List<EventOverviewViewModel> GetDatesForEvents(int id, string searchString)
         {
             var eventName = _context.TblEvents.FirstOrDefault(x => x.EtEventId == id).EtBezeichnung;
             var eventDetails = _context.TblEventDatens.Where(x => x.EtEventId == id);
@@ -83,6 +92,17 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
                 dataForVM.Add(ev);
             }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                return dataForVM.Where(x =>
+                    x.EdStartOrt.ToLower().Contains(searchString.ToLower()) ||
+                    x.EtBezeichnung.ToLower().Contains(searchString.ToLower()) ||
+                    x.EdPreis.ToString().Contains(searchString.ToLower()) ||
+                    x.EdAktTeilnehmer.ToString().Contains(searchString.ToLower()) ||
+                    x.EdBeginn.ToString().Contains(searchString.ToLower())).ToList();
+            }
+
             return dataForVM;
         }
     }

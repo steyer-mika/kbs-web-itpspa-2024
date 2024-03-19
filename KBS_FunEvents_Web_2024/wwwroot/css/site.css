@@ -73,3 +73,7 @@ body {
 .notopborder th {
     border-top: none
 }
+
+#searchInput {
+    width: 300px
+}
