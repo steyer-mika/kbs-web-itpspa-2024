@@ -2,37 +2,12 @@
     ViewData["Title"] = "EventDetails";
 }
 @model IEnumerable<KBS_FunEvents_Web_2024.Models.TblEventDaten>
-<div class="text-center">
-
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        h1 {
-            text;
-        }
-
-        .container {
-            text-align: left;
-        }
-    </style>
-
-    <div class="container">
-        <h1>Aktuelle Termine</h1>
-
-        <table>
+<div>
+    <h1>Aktuelle Termine</h1>
+    <hr />
+    @if (Model.Any())
+    {
+        <table class="table notopborder">
             <thead>
                 <tr>
                     <th>Eventbezeichnung</th>
@@ -63,15 +38,17 @@
                         <td>
                             @Html.DisplayFor(itemModel => item.EdMaxTeilnehmer)
                         </td>
-                        <td><button><a class="nav-link text-dark" asp-controller="Home" asp-action="Login">Login</a></button> | <button><a class="nav-link text-dark" asp-controller="Home" asp-action="Registration">Registrieren</a></button></td>
+                        <td>
+                            <a asp-controller="Home" asp-action="Login">Login</a> | <a asp-controller="Home" asp-action="Registration">Registrieren</a>
+                        </td>
                     </tr>
                 }
-                </tbody>
+            </tbody>
         </table>
-       
-        <br />
-        <a class="nav-link text-dark" asp-controller="Home" asp-action="GetEvents">Zurück zur Eventübersicht</a>
-
-
-    </div>
+        <a asp-controller="Home" asp-action="GetEvents">Zurück zur Eventübersicht</a>
+    }
+    else
+    {
+        <p class="text-danger">Aktuell gibt es leider keine Termine zu diesem Event!</p>
+    }
 </div>
