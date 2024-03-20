@@ -14,9 +14,9 @@ namespace KBS_FunEvents_Web_2024.Controllers
     public class ChangePasswordController : Controller
     {
         private ILogger<ChangePasswordController> _logger;
-        private readonly kbsContext _dbContext;
+        private readonly _dbContext _dbContext;
 
-        public ChangePasswordController(ILogger<ChangePasswordController> pLogger, kbsContext kbsContext)
+        public ChangePasswordController(ILogger<ChangePasswordController> pLogger, _dbContext kbsContext)
         {
             _logger = pLogger;
             _dbContext = kbsContext;
