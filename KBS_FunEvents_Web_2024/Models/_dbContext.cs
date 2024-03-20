@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using KBS_FunEvents_Web_2024.ViewModels;
 
@@ -7,13 +6,13 @@ using KBS_FunEvents_Web_2024.ViewModels;
 
 namespace KBS_FunEvents_Web_2024.Models
 {
-    public partial class kbsContext : DbContext
+    public partial class _dbContext : DbContext
     {
-        public kbsContext()
+        public _dbContext()
         {
         }
 
-        public kbsContext(DbContextOptions<kbsContext> options)
+        public _dbContext(DbContextOptions<_dbContext> options)
             : base(options)
         {
         }
@@ -100,8 +99,8 @@ namespace KBS_FunEvents_Web_2024.Models
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 
+        public DbSet<KBS_FunEvents_Web_2024.ViewModel.BookingViewModel> BookingViewModel { get; set; }
         public DbSet<KBS_FunEvents_Web_2024.ViewModels.LoginModelView> LoginModelView { get; set; }
-
         public DbSet<KBS_FunEvents_Web_2024.ViewModels.RegistrationModelView> RegistrationModelView { get; set; }
 
         public DbSet<KBS_FunEvents_Web_2024.ViewModels.DashboardModelView> DashboardModelView { get; set; }
