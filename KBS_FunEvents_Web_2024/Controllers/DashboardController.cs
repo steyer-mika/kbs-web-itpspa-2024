@@ -48,27 +48,5 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View(mv);
         }
 
-        public IActionResult ChangePassword(ChangePasswordModelView changing)
-        {
-            int? id = HttpContext.Session.GetInt32("KundenID");
-            var currentPassword = MD5Generator.getMD5Hash(changing.CurrentPassword);
-            var password = changing.Passwort;
-            var passwordWdh = changing.PasswortWDH;
-
-            if(id != null)
-            {
-                TblKunden existingCustomer = _dbContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
-
-                if (currentPassword.Equals(existingCustomer.KdPasswortHash) && password.Equals(passwordWdh))
-                {
-                    existingCustomer.KdPasswortHash = MD5Generator.getMD5Hash(password);
-                    _dbContext.TblKundens.Update(existingCustomer);
-                    _dbContext.SaveChanges();
-                }
-            }
-
-            return View();
-        }
-
     }
 }
