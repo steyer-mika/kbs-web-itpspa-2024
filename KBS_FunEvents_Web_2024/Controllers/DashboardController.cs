@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using KBS_FunEvents_Web_2024.Models;
 using KBS_FunEvents_Web_2024.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
@@ -96,7 +95,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult GetActiveBookings()
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            int? kundenId = HttpContext.Session.GetInt32("KundenID");
             var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
             return View("Bookings", result);
         }
@@ -104,7 +103,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult GetDetailBookings(int pId)
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            int? kundenId = HttpContext.Session.GetInt32("KundenID");
             var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId && x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
             return View("BookingDetail", result);
         }
