@@ -33,9 +33,11 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             if (id == null) return BadRequest();
             DashboardModelView mv = new DashboardModelView();
+
             TblKunden kundenDaten = _dbContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
             TblBuchungen buchungsDaten = _dbContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
-            TblEventDaten eventDaten = _dbContext.TblEventDatens.Find(id);
+            
+            TblEventDaten eventDaten = _dbContext.TblEventDatens.Where(x => buchungsDaten.EdEvDatenId == x.EdEvDatenId).FirstOrDefault();
 
             if (eventDaten != null)
             {
