@@ -24,7 +24,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
         public IActionResult Index()
         {
             int? customerId = HttpContext.Session.GetInt32("KundenID");
-
             if (customerId == null) return BadRequest();
 
             DashboardModelView mv = new DashboardModelView();
