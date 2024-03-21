@@ -52,8 +52,13 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View(mv);
         }
 
-        public async Task<IActionResult> Booking(int id)
+        public async Task<IActionResult> Booking(int? id)
         {
+            if (id == null)
+            {
+                return View("Index");
+            }
+
             TblEventDaten eventDaten = await _dbContext.TblEventDatens.FindAsync(id);
 
             if (eventDaten == null)
@@ -115,7 +120,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             _dbContext.SaveChanges();
 
-            return View("Index");
+            return (ActionResult)GetDetailBookings(booking.BuBuchungsId);
         }
 
         [HttpGet]
