@@ -72,7 +72,18 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [RequireHttps]
+        public IActionResult Login()
+        {
+            LoginModelView login = new();
+            return View(login);
+        }
+
+        public IActionResult Registration()
+        {
+            return View();
+        }
+
+        [RequireHttps, HttpPost]
         public async Task<IActionResult> Login(LoginModelView login)
         {
             if (ModelState.IsValid)
@@ -106,7 +117,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             return View(login);
         }
 
-        [RequireHttps]
+        [RequireHttps, HttpPost]
         public async Task<IActionResult> Registration(RegistrationModelView registration)
         {
             if (ModelState.IsValid)
