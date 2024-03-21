@@ -1,53 +1,25 @@
-﻿@{
+﻿@model IEnumerable<KBS_FunEvents_Web_2024.Models.TblEvent>
+@{
     ViewData["Title"] = "GetEvents";
 }
-@model IEnumerable<KBS_FunEvents_Web_2024.Models.TblEvent>
-<div class="text-center">
+<div>
+    <h1>
+        Aktuelle Events im Angebot
+    </h1>
 
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        h1 {
-            text;
-        }
-
-        .container {
-            text-align: left;
-        }
-    </style>
-
-    <div class="container">
-
-        @if (Model.Count() == 0)
-        {
-            <h1>Es sind keine Events vorhanden</h1>
-        }
-        else
-        {   <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">Eventbezeichnung</th>
-                        <th scope="col">Eventkategorie</th>
-                        <th scope="col">Veranstalter</th>
-                        <th scope="col">Details</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                @foreach(var item in Model)
+    @if (Model.Any())
+    {
+        <table class="table notopborder">
+            <thead>
+                <tr>
+                    <th scope="col">Eventbezeichnung</th>
+                    <th scope="col">Eventkategorie</th>
+                    <th scope="col">Veranstalter</th>
+                    <th scope="col">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
@@ -60,20 +32,15 @@
                             @Html.DisplayFor(itemModel => item.EvEvVeranstalter.EvFirma)
                         </td>
                         <td>
-                            <button><a class="nav-link text-dark" asp-controller="Home" asp-action="EventDetails" asp-route-evId="@item.EtEventId">Details</a></button>
+                            <a asp-controller="Home" asp-action="EventDetails" asp-route-evId="@item.EtEventId">Details zum Event</a>
                         </td>
                     </tr>
-
-
                 }
-                
-        
-                </tbody>
-                </table>
-
-        }
-
-
-
-    </div>
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p class="text-danger">Es sind keine Events vorhanden</p>
+    }
 </div>

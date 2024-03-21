@@ -90,7 +90,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
                         HttpContext.Session.SetString("Email", customer.KdEmail);
 
 
-                        return RedirectToAction(controllerName: "Dashboard", actionName: "GetActiveBookings");
+                        return RedirectToAction(controllerName: "Dashboard", actionName: "Index");
                     }
                     else
                     {
@@ -103,6 +103,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 }
             }
 
+            ModelState.Clear();
             return View(login);
         }
 
@@ -156,6 +157,8 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 }
                 return RedirectToAction(controllerName: "Home", actionName: "Index");
             }
+
+            ModelState.Clear();
             return View();
         }
 
@@ -166,5 +169,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return RedirectToAction("Login");
         }
+
     }
 }
