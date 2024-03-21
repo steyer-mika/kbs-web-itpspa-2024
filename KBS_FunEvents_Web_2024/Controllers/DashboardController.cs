@@ -96,15 +96,15 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult GetActiveBookings()
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenId");
-            var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
+            int? kundenId = HttpContext.Session.GetInt32("KundenID");
+            var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId && x.BuStorniert == false).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
             return View("Bookings", result);
         }
 
         [HttpGet]
         public IActionResult GetDetailBookings(int pId)
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenId");
+            int? kundenId = HttpContext.Session.GetInt32("KundenID");
             var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId && x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
             return View("BookingDetail", result);
         }
@@ -112,10 +112,12 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult Stonierung(int pId)
         {
-            var booking = _dbContext.TblBuchungens.FirstOrDefault(x => x.BuBuchungsId == pId);
+            var booking = _dbContext.TblBuchungens.Include(x => x.EdEvDaten).FirstOrDefault(x => x.BuBuchungsId == pId);
+            int stoniertePlaetze = booking.BuGebuchtePlaetze;
             booking.BuStorniert = true;
-            booking.BuGebuchtePlaetze = booking.BuGebuchtePlaetze - 1;
-            
+            booking.BuGebuchtePlaetze = booking.BuGebuchtePlaetze - stoniertePlaetze;
+            booking.EdEvDaten.EdAktTeilnehmer = booking.EdEvDaten.EdAktTeilnehmer - stoniertePlaetze;
+
             _dbContext.Update(booking);
             _dbContext.SaveChanges();
             return RedirectToAction("GetActiveBookings");

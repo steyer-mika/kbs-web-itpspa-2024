@@ -55,7 +55,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             if (HttpContext.Session.GetInt32("KundenID") != null)
                 return RedirectToAction(controllerName: "EventOverviewSignedIn", actionName: "Index");
 
-            var result = _dbContext.TblEvents.Include(x => x.EkEvKategorie).Include(y => y.EvEvVeranstalter).ToList();
+            var result = _dbContext.TblEvents.Include(x => x.EkEvKategorie).Include(y => y.EvEvVeranstalter).Include(z => z.TblEventDatens.Where(x => x.EdFreigegeben == true)).ToList();
             return View("Events", result);
         }
 
