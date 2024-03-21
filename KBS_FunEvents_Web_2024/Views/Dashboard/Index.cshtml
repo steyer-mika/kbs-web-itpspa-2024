@@ -61,7 +61,7 @@
                             <h3 id="eventCardSubtitle" class="card-subtitle"> @Html.DisplayFor(d => d.EtBezeichnung)</h3>
                             <p id="eventCardText" class="card-text"> @Html.DisplayFor(d => d.EtBeschreibung)</p>
                             <br />
-                            <a id="eventCardBtnDetails" class="card-footer" asp-area="" asp-controller="EventOverviewSignedIn" asp-action="Details">Zu den Details...</a>
+                            <a id="eventCardBtnDetails" class="card-footer" asp-area="" asp-controller="Home" asp-action="EventDetails" asp-route-evId="@Model.id">Zu den Details...</a>
                         </div>
                     </div>
                 } else

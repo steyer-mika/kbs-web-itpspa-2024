@@ -40,6 +40,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
             if (eventDaten != null)
             {
                 TblEvent baseEvent = _dbContext.TblEvents.Find(eventDaten.EtEventId);
+                mv.id = eventDaten.EtEventId;
                 mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
                 mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
                 mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
