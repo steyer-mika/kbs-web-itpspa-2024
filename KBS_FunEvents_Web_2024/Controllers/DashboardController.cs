@@ -39,18 +39,21 @@ namespace KBS_FunEvents_Web_2024.Controllers
                 .OrderBy(b => b.EdEvDaten.EdBeginn)
                 .FirstOrDefault();
 
-            TblEventDaten eventDaten = _dbContext.TblEventDatens
-                    .Where(x => buchungsDaten.EdEvDatenId == x.EdEvDatenId)
-                    .FirstOrDefault();
-
-            if (eventDaten != null)
+            if (buchungsDaten != null)
             {
-                TblEvent baseEvent = _dbContext.TblEvents.Find(eventDaten.EtEventId);
+                TblEventDaten eventDaten = _dbContext.TblEventDatens
+                   .Where(x => buchungsDaten.EdEvDatenId == x.EdEvDatenId)
+                   .FirstOrDefault();
 
-                mv.id = eventDaten.EtEventId;
-                mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
-                mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
-                mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
+                if (eventDaten != null)
+                {
+                    TblEvent baseEvent = _dbContext.TblEvents.Find(eventDaten.EtEventId);
+
+                    mv.id = eventDaten.EtEventId;
+                    mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
+                    mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
+                    mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
+                }
             }
 
             mv.NumDurchgefuehrteEvents = _dbContext.TblBuchungens
