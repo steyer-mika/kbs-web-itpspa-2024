@@ -6,12 +6,7 @@ using KBS_FunEvents_Web_2024.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using KBS_FunEvents_Web_2024.Models;
-using Microsoft.EntityFrameworkCore;
 using KBS_FunEvents_Web_2024.ViewModels;
-using Microsoft.AspNetCore.Http;
-using KBS_FunEvents_Web_2024.ComputeHash;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -24,31 +19,52 @@ namespace KBS_FunEvents_Web_2024.Controllers
         {
             _logger = pLogger;
             _dbContext = dbContext;
-
         }
 
         public IActionResult Index()
         {
-            int? id = HttpContext.Session.GetInt32("KundenID");
+            int? customerId = HttpContext.Session.GetInt32("KundenID");
 
-            if (id == null) return BadRequest();
+            if (customerId == null) return BadRequest();
+
             DashboardModelView mv = new DashboardModelView();
-            TblKunden kundenDaten = _dbContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
-            TblBuchungen buchungsDaten = _dbContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
-            TblEventDaten eventDaten = _dbContext.TblEventDatens.Find(id);
+
+            TblKunden kundenDaten = _dbContext.TblKundens
+                .Where(k => k.KdKundenId == customerId)
+                .FirstOrDefault();
+
+            TblBuchungen buchungsDaten = _dbContext.TblBuchungens
+                .Include(x => x.EdEvDaten)
+                .ThenInclude(x => x.EtEvent)
+                .Where(b => b.KdKundenId == customerId && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today)
+                .OrderBy(b => b.EdEvDaten.EdBeginn)
+                .FirstOrDefault();
+
+            TblEventDaten eventDaten = _dbContext.TblEventDatens
+                    .Where(x => buchungsDaten.EdEvDatenId == x.EdEvDatenId)
+                    .FirstOrDefault();
 
             if (eventDaten != null)
             {
                 TblEvent baseEvent = _dbContext.TblEvents.Find(eventDaten.EtEventId);
+
                 mv.id = eventDaten.EtEventId;
                 mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
                 mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
                 mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
             }
-            
-            mv.NumDurchgefuehrteEvents = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today).Count();
-            mv.NumAktiveBuchungen = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).Count();
-            mv.NumStornierteBuchungen = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == true).Count();
+
+            mv.NumDurchgefuehrteEvents = _dbContext.TblBuchungens
+                .Where(b => b.KdKundenId == customerId && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today)
+                .Count();
+
+            mv.NumAktiveBuchungen = _dbContext.TblBuchungens
+                .Where(b => b.KdKundenId == customerId && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today)
+                .Count();
+
+            mv.NumStornierteBuchungen = _dbContext.TblBuchungens
+                .Where(b => b.KdKundenId == customerId && b.BuStorniert == true)
+                .Count();
 
             return View(mv);
         }
@@ -64,7 +80,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             if (eventDaten == null)
             {
-                return View();
+                return BadRequest();
             }
 
             BookingViewModel bvm = new();
@@ -97,23 +113,26 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             TblEventDaten eventDaten = _dbContext.TblEventDatens.Where(t => t.EdEvDatenId == eventDataId).FirstOrDefault();
 
-            if (eventDaten == null) return View("Index");
+            if (eventDaten == null) return BadRequest();
 
             if (eventDaten.EdAktTeilnehmer + bookedPlaces > eventDaten.EdMaxTeilnehmer)
             {
-                return View("Index");
+                return BadRequest(); ;
             }
 
             int? customerId = HttpContext.Session.GetInt32("KundenID");
-            if (customerId == null) return View("Index");
+
+            if (customerId == null) return BadRequest();
 
             TblBuchungen booking = new();
+
             booking.BuBezahlt = false;
             booking.BuGebuchtePlaetze = bookedPlaces;
             booking.BuStorniert = false;
             booking.BuRechnungErstellt = false;
             booking.EdEvDatenId = eventDataId;
             booking.KdKundenId = customerId.Value;
+
             _dbContext.TblBuchungens.Add(booking);
 
             eventDaten.EdAktTeilnehmer += bookedPlaces;
@@ -127,30 +146,53 @@ namespace KBS_FunEvents_Web_2024.Controllers
         [HttpGet]
         public IActionResult GetActiveBookings()
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenID");
-            var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId && x.BuStorniert == false).Include(x => x.EdEvDaten).Include(x => x.EdEvDaten.EtEvent).ToList();
+            int? customerId = HttpContext.Session.GetInt32("KundenID");
+
+            if (customerId == null) return BadRequest();
+
+            var result = _dbContext.TblBuchungens
+                .Where(x => x.KdKundenId == customerId && x.BuStorniert == false)
+                .Include(x => x.EdEvDaten)
+                .Include(x => x.EdEvDaten.EtEvent)
+                .ToList();
+
             return View("Bookings", result);
         }
 
         [HttpGet]
         public IActionResult GetDetailBookings(int pId)
         {
-            int? kundenId = HttpContext.Session.GetInt32("KundenID");
-            var result = _dbContext.TblBuchungens.Where(x => x.KdKundenId == kundenId && x.BuBuchungsId == pId).Include(x => x.EdEvDaten).Include(y => y.EdEvDaten.EtEvent).Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter).Include(v => v.EdEvDaten.EtEvent.EkEvKategorie).ToList();
+            int? customerId = HttpContext.Session.GetInt32("KundenID");
+
+            if (customerId == null) return BadRequest();
+
+            var result = _dbContext.TblBuchungens
+                .Where(x => x.KdKundenId == customerId && x.BuBuchungsId == pId)
+                .Include(x => x.EdEvDaten)
+                .Include(y => y.EdEvDaten.EtEvent)
+                .Include(z => z.EdEvDaten.EtEvent.EvEvVeranstalter)
+                .Include(v => v.EdEvDaten.EtEvent.EkEvKategorie)
+                .ToList();
+
             return View("BookingDetail", result);
         }
 
         [HttpGet]
         public IActionResult Stonierung(int pId)
         {
-            var booking = _dbContext.TblBuchungens.Include(x => x.EdEvDaten).FirstOrDefault(x => x.BuBuchungsId == pId);
+            var booking = _dbContext.TblBuchungens
+                .Include(x => x.EdEvDaten)
+                .FirstOrDefault(x => x.BuBuchungsId == pId);
+
             int stoniertePlaetze = booking.BuGebuchtePlaetze;
+
             booking.BuStorniert = true;
-            booking.BuGebuchtePlaetze = booking.BuGebuchtePlaetze - stoniertePlaetze;
+            booking.BuGebuchtePlaetze -= stoniertePlaetze;
             booking.EdEvDaten.EdAktTeilnehmer = booking.EdEvDaten.EdAktTeilnehmer - stoniertePlaetze;
 
             _dbContext.Update(booking);
             _dbContext.SaveChanges();
+
             return RedirectToAction("GetActiveBookings");
         }
     }
