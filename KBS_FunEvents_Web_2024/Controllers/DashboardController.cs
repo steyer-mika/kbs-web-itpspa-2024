@@ -1,4 +1,4 @@
-﻿using KBS_FunEvents_Web_2024.Models;
+using KBS_FunEvents_Web_2024.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -6,6 +6,12 @@ using KBS_FunEvents_Web_2024.ViewModel;
 using Microsoft.AspNetCore.Http;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using KBS_FunEvents_Web_2024.Models;
+using Microsoft.EntityFrameworkCore;
+using KBS_FunEvents_Web_2024.ViewModels;
+using Microsoft.AspNetCore.Http;
+using KBS_FunEvents_Web_2024.ComputeHash;
 
 namespace KBS_FunEvents_Web_2024.Controllers
 {
@@ -23,7 +29,27 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            int? id = HttpContext.Session.GetInt32("KundenID");
+
+            if (id == null) return BadRequest();
+            DashboardModelView mv = new DashboardModelView();
+            TblKunden kundenDaten = _dbContext.TblKundens.Where(k => k.KdKundenId == id).FirstOrDefault();
+            TblBuchungen buchungsDaten = _dbContext.TblBuchungens.Include(x => x.EdEvDaten).ThenInclude(x => x.EtEvent).Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).OrderBy(b => b.EdEvDaten.EdBeginn).FirstOrDefault();
+            TblEventDaten eventDaten = _dbContext.TblEventDatens.Find(id);
+
+            if (eventDaten != null)
+            {
+                TblEvent baseEvent = _dbContext.TblEvents.Find(eventDaten.EtEventId);
+                mv.EdBeginn = buchungsDaten.EdEvDaten.EdBeginn;
+                mv.EtBeschreibung = buchungsDaten.EdEvDaten.EtEvent.EtBeschreibung;
+                mv.EtBezeichnung = buchungsDaten.EdEvDaten.EtEvent.EtBezeichnung;
+            }
+            
+            mv.NumDurchgefuehrteEvents = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdEnde < System.DateTime.Today).Count();
+            mv.NumAktiveBuchungen = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == false && b.EdEvDaten.EdBeginn > System.DateTime.Today).Count();
+            mv.NumStornierteBuchungen = _dbContext.TblBuchungens.Where(b => b.KdKundenId == id && b.BuStorniert == true).Count();
+
+            return View(mv);
         }
 
         public async Task<IActionResult> Booking(int id)
