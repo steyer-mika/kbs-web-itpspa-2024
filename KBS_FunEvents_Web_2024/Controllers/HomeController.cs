@@ -90,7 +90,7 @@ namespace KBS_FunEvents_Web_2024.Controllers
                         HttpContext.Session.SetString("Email", customer.KdEmail);
 
 
-                        return RedirectToAction(controllerName: "Home", actionName: "Privacy");
+                        return RedirectToAction(controllerName: "Dashboard", actionName: "Index");
                     }
                     else
                     {
@@ -169,5 +169,6 @@ namespace KBS_FunEvents_Web_2024.Controllers
 
             return RedirectToAction("Login");
         }
+
     }
 }
