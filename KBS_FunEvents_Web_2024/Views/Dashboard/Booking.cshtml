@@ -1,0 +1,135 @@
+﻿@model KBS_FunEvents_Web_2024.ViewModel.BookingViewModel
+
+@{
+    ViewData["Title"] = "Buchung des Events";
+    Layout = "~/Views/Shared/_Dashboard.cshtml";
+
+    int maxTeilnehmer = Model.EdMaxTeilnehmer;
+    int aktTeilnehmer = Model.EdAktTeilnehmer;
+    int difference = maxTeilnehmer - aktTeilnehmer;
+
+    List<SelectListItem> bookPlaceItems = new List<SelectListItem>();
+
+    for (int i = 0; i < difference; i++)
+    {
+        string value = (i + 1).ToString();
+        bookPlaceItems.Add(new SelectListItem { Value = value, Text = value });
+    }
+}
+
+    <h1>Buchung des Events</h1>
+
+    <div>
+        <hr />
+        <dl class="row">
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EventName)
+            </dt>
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EventDescription)
+            </dt>
+        </dl>
+        <dl class="row">
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EventName)
+            </dd>
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EventDescription)
+            </dd>
+        </dl>
+
+        <dl class="row">
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EdBeginn)
+            </dt>
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EdEnde)
+            </dt>
+        </dl>
+        <dl class="row">
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EdBeginn) Uhr
+            </dd>
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EdEnde) Uhr
+            </dd>
+        </dl>
+
+        <dl class="row">
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EdStartOrt)
+            </dt>
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EdZielort)
+            </dt>
+        </dl>
+        <dl class="row">
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EdStartOrt)
+            </dd>
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EdZielort)
+            </dd>
+        </dl>
+
+        <dl class="row">
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EdPreis)
+            </dt>
+            <dt class="col-6">
+                @Html.DisplayNameFor(model => model.EdAktTeilnehmer)
+            </dt>
+        </dl>
+        <dl class="row">
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EdPreis)
+            </dd>
+            <dd class="col-6">
+                @Html.DisplayFor(model => model.EdAktTeilnehmer)
+            </dd>
+        </dl>
+
+    </div>
+    <hr />
+    <form method="post" asp-action="Booking">
+        <dl class="row">
+            <dt class="col-6">
+                Anzahl Plätze wählen:
+            </dt>
+            <dt class="col-6">
+                Jetzt buchen...
+            </dt>
+        </dl>
+        <dl class="row">
+            @{
+                if (difference > 0)
+                {
+                    <dd class="col-6">
+                        <select asp-items="bookPlaceItems" asp-for="BookedPlaces" name="bookedPlaces"></select>
+                        <input style="display: none;" asp-for="EdEvDatenId" value="@Model.EdEvDatenId" />
+                    </dd>
+                    <dd class="col-6">
+                        <button type="submit" class="btn btn-success">Event Buchen</button>
+                    </dd>
+                }
+                else
+                {
+                    <dd class="col-6">
+                        <select>
+                            <option>Keine freien Plätze</option>
+                        </select>
+                    </dd>
+                    <dd class="col-6">
+                        <button type="submit" class="btn btn-dark disabled" disabled>Event Buchen</button>
+                    </dd>
+                }
+            }
+
+
+        </dl>
+        <dl class="row">
+            <dd class="col-6">
+                <a asp-action="GetAllDatesOfEvent" asp-controller="EventOverviewSignedIn" asp-route-eventId="@Model.EtEventId">Zurück zu den Events...</a>
+            </dd>
+        </dl>
+    </form>
